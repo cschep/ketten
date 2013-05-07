@@ -1,0 +1,71 @@
+<html>
+<head>
+    <style type="text/css" media ="screen">
+          body {
+              font: 100% Verdana, Arial, Helvetica, sans-serif;
+              background: #000000 ;
+              color: #ddd;
+              background-color: #000;
+          }
+
+          th {
+            text-align: left;
+            width: 400px;
+            color: #eee;
+          }
+    </style>
+
+    <title>Awesome</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#spinner").hide();
+            $("#searchform").submit(function() {
+                search = $("#search").val();
+                searchby = $("#searchby").val();
+
+                if (search != "") {
+                    ajaxSearch(search, searchby);
+                }
+                return false;
+            });
+        });
+
+        function ajaxSearch(search, searchby) {
+            $("#spinner").show();
+            $.getJSON("http://localhost:3000/json?search=" + search + "&searchby=" + searchby,
+            function(data) {
+                $("#results").empty();
+                var table = "<table><tr><th>Artist</th><th>Title</th></tr>";
+                //array of maps
+                $.each(data, function(index, value) {
+                    table += "<tr><td>" + value['artist']
+                            + "</td>" + "<td>" + value['title'] + "</td></tr>";
+                });
+                $("#spinner").hide();
+                $("#results").html(table);
+            });
+        }
+ </script>
+<body>
+
+<div id="form">
+    <h1>Find your faves!</h1>
+    <form id="searchform">
+        <p>
+            Search by:
+            <select id="searchby">
+                <option>artist</option>
+                <option>title</option>
+            </select>
+            <input id="search" name="search" type="textbox" />
+            <input id="btnSearch" type="submit" value="Go!" />
+            <img id="spinner" src="images/ajaxload.gif" />
+        </p>
+    </form>
+</div>
+
+<div id="results"></div>
+
+</body>
+</html>

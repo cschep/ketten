@@ -1,4 +1,7 @@
 Ketten::Application.routes.draw do
+
+  root :to => 'songbooks#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -12,6 +15,7 @@ Ketten::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :songbooks
 
   # Sample resource route with options:
   #   resources :products do
