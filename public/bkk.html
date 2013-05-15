@@ -33,7 +33,7 @@
 
         function ajaxSearch(search, searchby) {
             $("#spinner").show();
-            $.getJSON("http://localhost:3000/json?search=" + search + "&searchby=" + searchby,
+            $.getJSON("http://schepman.org:3000/json?search=" + search + "&searchby=" + searchby,
             function(data) {
                 $("#results").empty();
                 var table = "<table><tr><th>Artist</th><th>Title</th></tr>";

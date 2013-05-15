@@ -10,7 +10,7 @@ class SongbookImporter
       file.each do |line|
         if line.include? "John Brophy" or line.include? "babyketten.com" or line.include? "{" or line.include? "}" then next end
         words = line.split("\t")
-        
+
         words.each do |word|
           aword = word.split("  ")
 
@@ -46,15 +46,8 @@ class SongbookImporter
 
     def write_to_db(song_list)
       Song.delete_all
-      artist = ""
-      title = ""
       song_list.each do |entry|
-        if entry[0].chr == '*'
-          artist = rtf_render(entry[1..-2])
-        else
-          title = rtf_render(entry)
-          Song.new(:artist => artist, :title => title).save()
-        end
+        Song.new(entry).save()
       end
     end
 

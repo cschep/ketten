@@ -2,7 +2,7 @@ require_relative "../../lib/songbook_importer"
 
 describe SongbookImporter do
 
-  it "should parse rtf content into an array of songs dicts" do 
+  it "should parse rtf content into an array of songs dicts" do
     @csv_file_path = ("spec/file_fixtures/test_data.rtf")
 
     song_list = SongbookImporter.import_songs(open(@csv_file_path))

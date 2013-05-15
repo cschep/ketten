@@ -6,7 +6,7 @@ gem 'bootstrap-sass', '2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
@@ -33,7 +33,7 @@ gem 'ember-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
