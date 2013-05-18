@@ -19,5 +19,6 @@ production:
   encoding: unicode
   database: ketten_production
   pool: 5
+  host: localhost
   username: ketten
   password: kettenpass
