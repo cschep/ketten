@@ -11,6 +11,11 @@ class LegacyController < ApplicationController
     render :json => @songs.to_json(:only => [:artist, :title]), :root => false, :callback => params[:jsoncallback]
   end
 
+  def random
+    @songs = Song.all(:order => 'random()', :limit => 20)
+    render :json => @songs.to_json(:only => [:artist, :title]), :root => false
+  end
+
   def searchdb(search_term, search_by)
     search_term.downcase!
     if search_term.size < 2 then return "".to_json end #1 char searches are slow, this feels hacky though.
