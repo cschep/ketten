@@ -1,6 +1,7 @@
 require "bundler/capistrano"
 
 server "69.164.196.131", :web, :app, :db, primary: true
+set :port, 223
 
 set :application, "ketten"
 set :user, "deployer"
