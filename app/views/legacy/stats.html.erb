@@ -1,0 +1,22 @@
+<h1>Stats</h1>
+
+<h3>Last 100 Searches</h3>
+<table class="table">
+  <thead>
+    <th>Search Term</th>
+    <th>Search By</th>
+    <th>User Agent</th>
+    <th>Created At</th>
+  </thead>
+  <tbody>
+    <% @searches.each do |s| %>
+      <tr>
+        <td><%= s.search_term %></td>
+        <td><%= s.search_by %></td>
+        <td><%= s.user_agent %></td>
+        <td><%= s.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

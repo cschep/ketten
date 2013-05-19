@@ -2,10 +2,10 @@ Ketten::Application.routes.draw do
 
   root :to => 'songbooks#index'
 
-  #
   match '/json' => 'legacy#json'
   match '/jsonp' => 'legacy#jsonp'
   match '/random' => 'legacy#random'
+  match '/stats' => 'legacy#stats'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

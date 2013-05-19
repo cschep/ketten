@@ -16,6 +16,10 @@ class LegacyController < ApplicationController
     render :json => @songs.to_json(:only => [:artist, :title]), :root => false
   end
 
+  def stats
+    @searches = Search.last(100).reverse
+  end
+
   def searchdb(search_term, search_by)
     search_term.downcase!
     if search_term.size < 2 then return "".to_json end #1 char searches are slow, this feels hacky though.
@@ -38,7 +42,7 @@ class LegacyController < ApplicationController
       end
     end
 
-    #Log.create(:search_term => search_term, :search_by => search_by, :user_agent => request.user_agent, :num_results => @songs.count, :ip_address => request.ip)
+    Search.create(:search_term => search_term, :search_by => search_by, :user_agent => request.user_agent, :num_results => @songs.count, :ip_address => request.ip)
 
     @songs
   end

@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514145536) do
+ActiveRecord::Schema.define(:version => 20130519211514) do
+
+  create_table "searches", :force => true do |t|
+    t.string   "search_term"
+    t.string   "search_by"
+    t.string   "user_agent"
+    t.integer  "num_results"
+    t.string   "ip_address"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "songbooks", :force => true do |t|
     t.string   "name"
