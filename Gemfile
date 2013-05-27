@@ -8,6 +8,8 @@ gem 'bootstrap-sass', '2.1'
 
 gem 'pg'
 
+gem 'devise'
+
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
 end

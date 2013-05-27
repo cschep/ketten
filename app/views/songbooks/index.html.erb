@@ -1,0 +1,15 @@
+<h1>Your Songbooks</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @songbooks.each do |songbook| %>
+      <tr><td><%= link_to songbook.name, songbook_path(songbook.id) %></td><td><%= songbook.created_at %></td></tr>
+    <% end %>
+  </tbody>
+</table>

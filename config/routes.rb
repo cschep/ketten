@@ -1,6 +1,6 @@
 Ketten::Application.routes.draw do
 
-  root :to => 'songbooks#index'
+  devise_for :users
 
   match '/json' => 'legacy#json'
   match '/jsonp' => 'legacy#jsonp'
@@ -20,7 +20,7 @@ Ketten::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  #resources :songbooks
+  resources :songbooks
 
   # Sample resource route with options:
   #   resources :products do
@@ -58,6 +58,7 @@ Ketten::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 

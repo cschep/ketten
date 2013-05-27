@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BKK</title>
+    <title>Songbooks</title>
     <%= stylesheet_link_tag    "application", media: "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
@@ -10,19 +10,51 @@
     <![endif]-->
   </head>
   <body>
+
     <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <%= link_to "BKK", '#', id: "logo" %>
+          <%= link_to "KARAOKE SONGBOOKS ONLINE", root_path, id: "logo" %>
+
           <nav>
             <ul class="nav pull-right">
+              <% if user_signed_in? %>
+                <li><%= link_to "Songbooks", songbooks_path %></li>
+                <li><%= link_to current_user.email, edit_user_registration_path %></li>
+                <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+              <% else %>
+                <li><%= link_to "Sign up", new_user_registration_path %></li>
+                <li><%= link_to "Login", new_user_session_path %></li>
+              <% end %>
             </ul>
           </nav>
+
         </div>
       </div>
     </header>
+
     <div class="container">
+
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
+
       <%= yield %>
+
+      <footer class="footer">
+        <small>
+          <%= link_to "Karaoke Songbooks Online", root_path %>
+          by Chris Schepman
+        </small>
+
+        <nav>
+          <ul>
+            <li><%= link_to "Contact", '#' %></li>
+          </ul>
+        </nav>
+      </footer>
+
     </div>
   </body>
 </html>
+
