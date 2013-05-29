@@ -1,6 +1,22 @@
 <div>
   <h1>Update the trackz.</h1>
   <h2>Note: It's important that the file that is uploaded is a single column!</h2>
+
+  <%= form_for @songbook do |f| %>
+    <p>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </p>
+
+
+    <p>
+      <%= f.file_field :songbook %>
+    </p>
+
+    <p>
+      <%= f.submit :class => "btn btn-success" %>
+    </p>
+  <% end %>
 </div>
 
 

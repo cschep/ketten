@@ -1,15 +1,24 @@
 <h1>Your Songbooks</h1>
 
+<%= link_to "Upload New Songbook", new_songbook_path, :class => "btn btn-success pull-right"  %>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
       <th>Created</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @songbooks.each do |songbook| %>
-      <tr><td><%= link_to songbook.name, songbook_path(songbook.id) %></td><td><%= songbook.created_at %></td></tr>
+      <tr>
+        <td><%= link_to songbook.name, songbook_path(songbook) %></td>
+        <td><%= songbook.created_at %></td>
+        <td>
+          <%= link_to "Edit", edit_songbook_path(songbook) %> |
+          <%= link_to "Delete", songbook, :confirm => 'Are you sure?', :method => :delete %>
+        </td>
+    </tr>
     <% end %>
   </tbody>
 </table>
