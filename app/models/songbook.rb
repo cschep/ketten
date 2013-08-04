@@ -14,7 +14,9 @@ class Songbook < ActiveRecord::Base
 
     songs = []
     @song_list.each do |song|
-      songs << songbook.songs.new(song)
+      songs << Song.new({:artist => song[:artist],
+                         :title => song[:title],
+                         :songbook_id => songbook.id})
     end
 
     # the log for this is insanity in dev
