@@ -13,6 +13,8 @@ set :scm, "git"
 set :repository, "git@bitbucket.org:cschep/#{application}.git"
 set :branch, "master"
 
+set :shared_children, shared_children + %w{uploads}
+
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 

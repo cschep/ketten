@@ -1,8 +1,10 @@
+require 'songbook_importer'
+
 class SongbooksController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :load_songbooks_for_user, :only => [:index]
 
   def index
+    @songbooks = current_user.songbooks
   end
 
   def new
@@ -10,12 +12,15 @@ class SongbooksController < ApplicationController
   end
 
   def create
-    @songbook = Songbook.new(params[:songbook])
+    @songbook = current_user.songbooks.build(params[:songbook])
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
-      redirect_to @songbook
+
+      Songbook.delay.import_songbook(@songbook)
+
+      redirect_to :action => "index"
     else
-      render :action => 'new'
+      render :action => "new"
     end
   end
 
@@ -23,16 +28,36 @@ class SongbooksController < ApplicationController
   end
 
   def destroy
-    @songbook = Songbook.new(params[:songbook])
-    
+    @songbook = Songbook.find_by_id(params[:id])
+    @songbook.destroy
+
+    redirect_to :back
   end
 
   def show
     @songbook = Songbook.find_by_id(params[:id])
+
+    if params[:search]
+      @songs = @songbook.search(params[:search], params[:search_by])
+    else
+      @songs = @songbook.songs
+    end
+
+    @songs = @songs.paginate(:page => params[:page], :per_page => 100)
   end
 
-  # silly?
-  def load_songbooks_for_user
-    @songbooks = current_user.songbooks
+  def set_default
+    @songbook = Songbook.find_by_id(params[:id])
+    current_user.songbooks.each do |sb|
+      if sb == @songbook
+        sb.default = true
+      else
+        sb.default = false
+      end
+
+      sb.save
+    end
+
+    redirect_to :back
   end
 end

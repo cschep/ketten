@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def default_songbook
+    self.songbooks.where(:default => true).first
+  end
 end

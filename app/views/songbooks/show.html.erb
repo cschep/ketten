@@ -1,6 +1,13 @@
 <h1><%= @songbook.name %></h1>
 
-<%= link_to "Download Songbook File", @songbook.songbook_url %>
+<%= form_tag songbook_path(@songbook), :class => "form-search", :method => "get" do %>
+  Search By: <%= select_tag "search_by", options_for_select([["Artist", "artist"], ["Title", "title"]], params[:search_by]) %>
+  <div class="input-append">
+    <%= text_field_tag :search, "", :class => "span4 search-query", :value => params[:search] %>
+    <%= submit_tag "Search", :class => "btn", :name => nil %><br />
+  </div>
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -9,8 +16,9 @@
     </tr>
   </thead>
   <tbody>
-    <% @songbook.songs.each do |song| %>
+    <% @songs.each do |song| %>
       <tr><td><%= song.artist %></td><td><%= song.title %></td></tr>
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @songs, renderer: BootstrapPagination::Rails %>
