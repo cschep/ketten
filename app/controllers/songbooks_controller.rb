@@ -20,6 +20,8 @@ class SongbooksController < ApplicationController
 
       redirect_to :action => "index"
     else
+      flash[:error] = @songbook.errors.full_messages.join(". ")
+
       render :action => "new"
     end
   end

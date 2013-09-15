@@ -3,6 +3,7 @@ require 'songbook_importer'
 class Songbook < ActiveRecord::Base
   belongs_to :user
   has_many :songs, :dependent => :delete_all
+  validates :name, :presence => {:message => 'Name cannot be blank.'}
 
   #import_status: 0 = importing, 1 = complete, 2 = failed?
   attr_accessible :name, :songbook, :import_status

@@ -1,4 +1,4 @@
-<h1><%= @songbook.name %></h1>
+<h1><%= @songbook.name %> has <%= number_with_delimiter(@songbook.songs.count, :delimiter => ',') %> songs</h1>
 
 <%= form_tag songbook_path(@songbook), :class => "form-search", :method => "get" do %>
   Search By: <%= select_tag "search_by", options_for_select([["Artist", "artist"], ["Title", "title"]], params[:search_by]) %>
