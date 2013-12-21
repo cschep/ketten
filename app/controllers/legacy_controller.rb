@@ -1,7 +1,14 @@
 
 class LegacyController < ApplicationController
 
-  def message
+  def message_or
+    the_ketten = User.where(:ketten => true).first
+    message = the_ketten.live_message
+
+    render :json => { :message => message.content }
+  end
+
+  def message_wa
     the_ketten = User.where(:ketten => true).first
     message = the_ketten.live_message
 
