@@ -1,6 +1,13 @@
 
 class LegacyController < ApplicationController
 
+  def message
+    the_ketten = User.where(:ketten => true).first
+    message = the_ketten.live_message
+
+    render :json => { :message => message.content }
+  end
+
   def json
     @songs = searchdb(params[:search], params[:searchby])
     render :json => @songs.to_json(:only => [:artist, :title]), :root => false

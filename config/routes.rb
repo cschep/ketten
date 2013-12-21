@@ -6,6 +6,7 @@ Ketten::Application.routes.draw do
   match '/jsonp' => 'legacy#jsonp'
   match '/random' => 'legacy#random'
   match '/stats' => 'legacy#stats'
+  match '/message' => 'legacy#message'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -23,6 +24,12 @@ Ketten::Application.routes.draw do
   resources :songbooks do
     member do
       post :set_default
+    end
+  end
+
+  resources :messages do
+    member do
+      post :set_live
     end
   end
 

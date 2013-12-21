@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :songbooks
+  has_many :messages
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
@@ -19,5 +20,9 @@ class User < ActiveRecord::Base
 
   def default_songbook
     self.songbooks.where(:default => true).first
+  end
+
+  def live_message
+    self.messages.where(:live => true).first
   end
 end

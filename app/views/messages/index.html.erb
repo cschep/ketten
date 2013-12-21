@@ -1,0 +1,32 @@
+<h1>Your Messages</h1>
+
+<%= link_to "New Message", new_message_path, :class => "btn btn-success pull-right"  %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Content</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @messages.each do |message| %>
+      <tr>
+        <td>
+          <% if message.live %>
+            <span class="label label-success">LIVE</span>
+          <% end %>
+        </td>
+        <td><%= message.content %></td>
+        <td><%= message.created_at %></td>
+        <td>
+          <%= link_to "Delete", message, :confirm => 'Are you sure?', :method => :delete %>
+          <% if message.live != true %>
+            | <%= link_to "Go Live!", set_live_message_path(message), :confirm => 'Are you sure?', :method => :post %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
