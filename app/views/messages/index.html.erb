@@ -6,7 +6,6 @@
     <tr>
       <th></th>
       <th>Content</th>
-      <th>Created</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -19,7 +18,6 @@
           <% end %>
         </td>
         <td><%= message.content %></td>
-        <td><%= message.created_at %></td>
         <td>
           <%= link_to "Delete", message, :confirm => 'Are you sure?', :method => :delete %>
           <% if message.live != true %>
