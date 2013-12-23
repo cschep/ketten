@@ -2,10 +2,17 @@
 class LegacyController < ApplicationController
 
   def message_or
-    the_ketten = User.where(:ketten => true).first
-    message = the_ketten.live_message
+    # the_ketten = User.where(:ketten => true).first
+    # message = the_ketten.live_message
 
-    render :json => { :message => message.content }
+    fb_url = "https://www.facebook.com/feeds/page.php?format=json&id=58369952922"
+    feed = JSON.parse(open(fb_url).read)
+    latest = feed['entries'].first
+    doc = Nokogiri::HTML(latest['title'])
+
+    link = "<a href=\"#{latest['alternate']}\">more</a>"
+
+    render :json => { :message => "#{doc.to_str} - #{link}" }
   end
 
   def message_wa
