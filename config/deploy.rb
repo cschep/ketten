@@ -1,8 +1,8 @@
 require "bundler/capistrano"
 require "delayed/recipes"
 
-server "69.164.196.131", :web, :app, :db, primary: true
-set :port, 223
+server "173.230.155.150", :web, :app, :db, primary: true
+set :port, 22
 
 set :application, "ketten"
 set :user, "deployer"
