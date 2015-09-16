@@ -1,6 +1,6 @@
 var RTFParser = function(rtfText) {
   this.rtfText = rtfText;
-  this.defaultIgnoreList = [
+  this.ignoreList = [
     /.*Song List Generator.*/g,
     /.*iphone app!.*/g,
     /.*John Brophy.*/g,
@@ -13,8 +13,8 @@ var RTFParser = function(rtfText) {
 
 RTFParser.prototype.removeIgnoredLines = function() {
   var rtfText = this.rtfText;
-  for (var i = 0; i < this.defaultIgnoreList.length; i++) {
-    rtfText = rtfText.replace(this.defaultIgnoreList[i], '');
+  for (var i = 0; i < this.ignoreList.length; i++) {
+    rtfText = rtfText.replace(this.ignoreList[i], '');
   }
 
   return rtfText;
