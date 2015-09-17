@@ -1,14 +1,6 @@
 var RTFParser = function(rtfText) {
   this.rtfText = rtfText;
-  this.ignoreList = [
-    /.*Song List Generator.*/g,
-    /.*iphone app!.*/g,
-    /.*John Brophy.*/g,
-    /.*rare and unique.*/g,
-    /.*BKK.*/g,
-    /.*Printed.*/g,
-    /.*Title.*/g
-  ];
+  this.ignoreList = [];
 };
 
 RTFParser.prototype.removeIgnoredLines = function() {
@@ -20,7 +12,7 @@ RTFParser.prototype.removeIgnoredLines = function() {
   return rtfText;
 };
 
-RTFParser.prototype.parse = function() {
+RTFParser.prototype.parse = function(cb) {
   var rtfText = this.removeIgnoredLines();
   // var rtfText = this.rtfText;
 
@@ -48,7 +40,12 @@ RTFParser.prototype.parse = function() {
         if (bold) {
           currentArtist = currentWord;
         } else {
-          result.push({artist: currentArtist, title: currentWord});
+          var song = {artist: currentArtist, title: currentWord}
+          if (this.onSong) {
+            this.onSong(song);
+          }
+
+          result.push(song);
         }
       }
 
@@ -93,7 +90,9 @@ RTFParser.prototype.parse = function() {
     }
   }
 
-  return result;
+  if (cb) {
+    cb(result);
+  }
 };
 
 //I S O M O R P H I C

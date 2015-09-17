@@ -1,22 +1,39 @@
-<div>
-  <h1>Update the trackz.</h1>
-  <h2>Note: It's important that the file that is uploaded is a single column!</h2>
-
-  <%= form_for @songbook do |f| %>
-    <p>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </p>
-
-
-    <p>
-      <%= f.file_field :songbook %>
-    </p>
-
-    <p>
-      <%= f.submit :class => "btn btn-success" %>
-    </p>
-  <% end %>
+<div class="row">
+  <h1>New Songbook</h1>
 </div>
 
+<div class="row">
+  <div class="span12">
+    <div class="well">
+      <span class="btn btn-info btn-file">
+        Browse <input id="songbook-file" type="file" />
+      </span>
+      <span id="songbook-file-label" class="file-label">Select a file to get started! -- Note: It's important that the file that is uploaded is a single column!</span>
+      <button id="songbook-refresh" class="btn pull-right">
+        <i class="icon-repeat"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
+<div class="row">
+  <div class="span8">
+    <h6>Results</h6>
+    <div class="well songbook-panel">
+      <table class="table table-bordered">
+        <thead>
+          <tr><th>Artist</th><th>Title</th></tr>
+        </thead>
+        <tbody id="songbook-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="span4">
+    <h6>Ignore List</h6>
+    <div class="well songbook-panel">
+      <div id="rtf-editor"></div>
+    </div>
+  </div>
+</div>

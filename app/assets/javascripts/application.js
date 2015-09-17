@@ -12,4 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require rtf.js
+//= require ace.js
+//= require songbooks.js
