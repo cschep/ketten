@@ -1,5 +1,5 @@
 var assert = require('assert')
-var RTFParser = require('../../app/assets/javascripts/rtf.js');
+var RTFParser = require('../../public/rtf.js');
 var fs = require('fs');
 
 describe('parse', function() {
@@ -17,7 +17,7 @@ describe('parse', function() {
       ];
 
       rtfParser.parse(function(result) {
-        assert.equal(31312, result.length);
+        assert.equal(31313, result.length);
         done();
       });
     });
@@ -44,7 +44,7 @@ describe('parse', function() {
     });
   });
 
-  it('parse new broken file', function(done) {
+  it('should parse new broken file', function(done) {
     fs.readFile(__dirname + '/data/latest_broken.rtf', 'utf8', function(err, data) {
       if (err) { console.log('error: ' + err) }
       var rtfParser = new RTFParser(data);
@@ -58,10 +58,29 @@ describe('parse', function() {
       ];
 
       rtfParser.parse(function(result) {
-        assert.equal(31603, result.length);
+        assert.equal(31604, result.length);
         done();
       });
     });
   });
 
+  it('should parse unicode test file', function(done) {
+    fs.readFile(__dirname + '/data/unicode_test.rtf', 'utf8', function(err, data) {
+      if (err) { console.log('error: ' + err) }
+      var rtfParser = new RTFParser(data);
+      rtfParser.ignoreList = [
+        /.*Song List Generator.*/g,
+        /.*iphone app!.*/g,
+        /.*John Brophy.*/g,
+        /.*rare and unique.*/g,
+        /.*BKK.*/g,
+        /.*Printed.*/g,
+      ];
+
+      rtfParser.parse(function(result) {
+        assert.equal(57, result.length);
+        done();
+      });
+    });
+  });
 });

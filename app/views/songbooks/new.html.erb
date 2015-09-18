@@ -9,16 +9,21 @@
         Browse <input id="songbook-file" type="file" />
       </span>
       <span id="songbook-file-label" class="file-label">Select a file to get started! -- Note: It's important that the file that is uploaded is a single column!</span>
-      <button id="songbook-refresh" class="btn pull-right">
-        <i class="icon-repeat"></i>
-      </button>
+      <div class="pull-right">
+        <button id="songbook-stop" class="btn">
+          <i class="icon-stop"></i>
+        </button>
+        <button id="songbook-refresh" class="btn">
+          <i class="icon-repeat"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="row">
   <div class="span8">
-    <h6>Results</h6>
+    <h6>Results</h6><%= image_tag("spinner_24.gif") %>
     <div class="well songbook-panel">
       <table class="table table-bordered">
         <thead>

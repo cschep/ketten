@@ -2,8 +2,8 @@ $(function() {
   var editor = ace.edit("rtf-editor");
   editor.renderer.setShowGutter(false);
 
+  var rtfWorker;
   var rtfText;
-  var rtfParser;
   var ignoreListStrings = [
     'Song List Generator',
     'iphone app!',
@@ -21,6 +21,10 @@ $(function() {
     parseFile();
   });
 
+  $('#songbook-stop').on('click', function(e) {
+    rtfWorker.terminate();
+  });
+
   $('#songbook-file').on('change', function(e) {
     var files = document.getElementById("songbook-file").files;
     var file = files[0];
@@ -32,16 +36,7 @@ $(function() {
 
       reader.onload = function(e) {
         rtfText = e.target.result;
-
-        rtfParser = new RTFParser(rtfText);
-        saveIgnoreList();
         displayIgnoreList();
-
-        rtfParser.onSong = function(song) {
-          var songRow = '<tr><td>' + song.artist + '</td><td>' + song.title + '</td></tr>';
-          songbookTableBody.append(songRow);
-        };
-
         parseFile();
       };
 
@@ -56,17 +51,30 @@ $(function() {
 
   var saveIgnoreList = function() {
     var ignoreListText = editor.getValue();
-    var ignoreList = ignoreListText.split('\n');
-
-    rtfParser.ignoreList = ignoreList.map(function(item) {
-      return new RegExp('.*' + item + '.*', 'g');
-    });
+    ignoreListStrings = ignoreListText.split('\n');
   };
 
   var parseFile = function() {
     songbookTableBody.html('');
     saveIgnoreList();
 
-    rtfParser.parse();
+    if (window.Worker) {
+      console.log('Web workers detected.. engage.');
+
+      rtfWorker = new Worker('/rtf_worker.js');
+      rtfWorker.onmessage = function(e) {
+        var songs = e.data;
+        var songTableData = '';
+        songs.forEach(function(song) {
+          var songRow = '<tr><td>' + song.artist + '</td><td>' + song.title + '</td></tr>';
+          songTableData += songRow;
+        });
+        songbookTableBody.html(songTableData);
+      }
+      rtfWorker.postMessage([rtfText, ignoreListStrings]);
+
+    } else {
+      console.log('uh oh, web workers not enabled.');
+    }
   };
 });
