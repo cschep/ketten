@@ -25,7 +25,7 @@ RTFParser.prototype.parse = function(cb) {
 
   var result = [];
 
-  var unicodeReplacementDictionary = {
+  var unicodeReplacements = {
     'u225': 'a',
     'u228': 'a',
     'u230': 'ae',
@@ -44,8 +44,8 @@ RTFParser.prototype.parse = function(cb) {
       bold = true;
     } else if (currentControlWord === 'b0') {
       bold = false;
-    } else if (unicodeReplacementDictionary.hasOwnProperty(currentControlWord)) {
-      currentWord += unicodeReplacementDictionary[currentControlWord];
+    } else if (unicodeReplacements.hasOwnProperty(currentControlWord)) {
+      currentWord += unicodeReplacements[currentControlWord];
     }
   }
 

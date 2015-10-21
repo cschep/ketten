@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require ace.js
+//= require jquery.dataTables.min.js
+//= require dataTables.bootstrap.2.js
 //= require songbooks.js

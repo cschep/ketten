@@ -14,6 +14,16 @@ $(function() {
     'Title'
   ];
 
+  var songs = [{artist: 'bieber, justin', title: 'so hot right now'}];
+  $('#songbook-table').DataTable({
+    pageLength: 100,
+    data: songs,
+    columns: [
+      { data: "artist" },
+      { data: "title" }
+    ]
+  });
+
   var fileLabel = $('#songbook-file-label');
   var songbookTableBody = $('#songbook-table-body');
 
@@ -55,21 +65,18 @@ $(function() {
   };
 
   var parseFile = function() {
-    songbookTableBody.html('');
+    toggleLoading();
     saveIgnoreList();
 
     if (window.Worker) {
       console.log('Web workers detected.. engage.');
 
+      //TODO: just make the one worker and postMessage starts a job. Would that even help?
       rtfWorker = new Worker('/rtf_worker.js');
       rtfWorker.onmessage = function(e) {
-        var songs = e.data;
-        var songTableData = '';
-        songs.forEach(function(song) {
-          var songRow = '<tr><td>' + song.artist + '</td><td>' + song.title + '</td></tr>';
-          songTableData += songRow;
-        });
-        songbookTableBody.html(songTableData);
+        songs = e.data;
+        renderSongbookTable();
+        toggleLoading();
       }
       rtfWorker.postMessage([rtfText, ignoreListStrings]);
 
@@ -77,4 +84,22 @@ $(function() {
       console.log('uh oh, web workers not enabled.');
     }
   };
+
+  var renderSongbookTable = function() {
+    var dataTable = $('#songbook-table').dataTable();
+    if (dataTable) {
+      dataTable.fnClearTable();
+      dataTable.fnAddData(songs);
+    }
+  };
+
+  var toggleLoading = function() {
+    console.log('loading toggled');
+    $('.spinner').toggle();
+    var dataTable = $('#songbook-table').dataTable().api().table();
+    if (dataTable) {
+      $(dataTable.container()).toggle();
+    }
+  };
+
 });
