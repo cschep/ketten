@@ -26,7 +26,6 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'carrierwave'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -42,10 +41,3 @@ gem 'capistrano', '= 2.15.5'
 
 # To use debugger
 # gem 'debugger'
-
-gem 'activerecord-import'
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
-gem 'delayed_job_active_record'
-gem 'daemons'
-

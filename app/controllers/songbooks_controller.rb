@@ -1,5 +1,3 @@
-require 'songbook_importer'
-
 class SongbooksController < ApplicationController
   before_filter :authenticate_user!
 
@@ -16,7 +14,7 @@ class SongbooksController < ApplicationController
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
 
-      Songbook.delay.import_songbook(@songbook)
+      # Songbook.delay.import_songbook(@songbook)
 
       redirect_to :action => "index"
     else
