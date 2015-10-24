@@ -7,11 +7,11 @@ gem 'bootstrap-sass', '2.3.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-
 gem 'devise'
 
 group :development, :test do
-  gem 'rspec-rails', '2.11.0'
+  gem 'test-unit'
+  gem 'rspec-rails', '2.99.0'
 end
 
 # Gems used only for assets and not required
