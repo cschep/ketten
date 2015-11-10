@@ -7,7 +7,6 @@
       <th>Name</th>
       <th>Is Default?</th>
       <th>Created</th>
-      <th>Import Status</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -17,15 +16,10 @@
         <td><%= link_to songbook.name, songbook_path(songbook) %></td>
         <td><%= songbook.default ? "Yes" : "No" %></td>
         <td><%= songbook.created_at %></td>
-        <% if songbook.import_status == 0 %>
-          <td>Importing... <%= image_tag("spinner_24.gif") %></td>
-        <% else %>
-          <td>Complete.</td>
-        <% end %>
         <td>
           <%= link_to "Edit", edit_songbook_path(songbook) %> |
           <%= link_to "Delete", songbook, :confirm => 'Are you sure?', :method => :delete %>
-          <% if songbook.import_status == 1 && songbook.default != true %>
+          <% if songbook.default != true %>
             | <%= link_to "Set Default", set_default_songbook_path(songbook), :confirm => 'Are you sure?', :method => :post %>
           <% end %>
         </td>

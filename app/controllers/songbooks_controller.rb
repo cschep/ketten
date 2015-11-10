@@ -36,14 +36,6 @@ class SongbooksController < ApplicationController
 
   def show
     @songbook = Songbook.find_by_id(params[:id])
-
-    if params[:search]
-      @songs = @songbook.search(params[:search], params[:search_by])
-    else
-      @songs = @songbook.songs
-    end
-
-    @songs = @songs.paginate(:page => params[:page], :per_page => 100)
   end
 
   def set_default

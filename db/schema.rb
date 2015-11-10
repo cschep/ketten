@@ -50,11 +50,10 @@ ActiveRecord::Schema.define(:version => 20131221211523) do
 
   create_table "songbooks", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "user_id"
     t.string   "songbook"
-    t.integer  "import_status", :default => 0
     t.boolean  "default"
   end
 
