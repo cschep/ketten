@@ -37,6 +37,21 @@ $(function() {
     rtfWorker.terminate();
   });
 
+  $('#songbook-save').on('click', function(e) {
+    $.ajax({
+      type: 'POST',
+      url: '/songbooks.json',
+      data: JSON.stringify({ songbook: { name: 'chris' }, song_list: songs }),
+      contentType: 'application/json',
+      success: function(data) {
+        console.log('success: ' + data);
+      },
+      error: function(data) {
+        console.log('error: ' + data);
+      }
+    });
+  });
+
   $('#songbook-file').on('change', function(e) {
     var files = document.getElementById("songbook-file").files;
     var file = files[0];

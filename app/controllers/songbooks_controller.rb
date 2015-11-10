@@ -11,16 +11,24 @@ class SongbooksController < ApplicationController
 
   def create
     @songbook = current_user.songbooks.build(params[:songbook])
+
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
 
-      # Songbook.delay.import_songbook(@songbook)
+      song_list = params[:song_list]
+      @songbook.create_songs_for_songbook(song_list)
 
-      redirect_to :action => "index"
+      respond_to do |format|
+        format.html { redirect_to :action => "index" }
+        format.json { render :json => @songbook }
+      end
     else
       flash[:error] = @songbook.errors.full_messages.join(": ")
 
-      render :action => "new"
+      respond_to do |format|
+        format.html { render :action => "new" }
+        format.json { render :json => @songbook.errors }
+      end
     end
   end
 
