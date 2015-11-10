@@ -1,6 +1,8 @@
 $(function() {
-  var editor = ace.edit("rtf-editor");
-  editor.renderer.setShowGutter(false);
+  if (document.getElementById('rtf-editor')) {
+    var editor = ace.edit("rtf-editor");
+    editor.renderer.setShowGutter(false);
+  }
 
   var rtfWorker;
   var rtfText;
