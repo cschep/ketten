@@ -6,8 +6,9 @@ Ketten::Application.routes.draw do
   match '/jsonp' => 'legacy#jsonp'
   match '/random' => 'legacy#random'
   match '/stats' => 'legacy#stats'
-  match '/live_message_or' => 'legacy#message_or'
-  match '/live_message_wa' => 'legacy#message_wa'
+
+  # match '/live_message_or' => 'legacy#message_or'
+  # match '/live_message_wa' => 'legacy#message_wa'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

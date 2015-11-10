@@ -21,4 +21,4 @@ production:
   pool: 5
   host: localhost
   username: ketten
-  password: kettenpass
+  password: kettenp4ssword

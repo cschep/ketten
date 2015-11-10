@@ -1,8 +1,7 @@
 require "bundler/capistrano"
-require "delayed/recipes"
 
-server "173.230.155.150", :web, :app, :db, primary: true
-set :port, 223
+server "192.81.130.222", :web, :app, :db, primary: true
+set :port, 22
 
 set :application, "ketten"
 set :user, "deployer"
@@ -14,18 +13,10 @@ set :scm, "git"
 set :repository, "git@bitbucket.org:cschep/#{application}.git"
 set :branch, "master"
 
-set :shared_children, shared_children + %w{uploads}
-
-set :rails_env, "production" #added for delayed job
-
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
-
-after "deploy:stop",    "delayed_job:stop"
-after "deploy:start",   "delayed_job:start"
-after "deploy:restart", "delayed_job:restart"
 
 namespace :deploy do
   %w[start stop restart].each do |command|
