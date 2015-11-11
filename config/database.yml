@@ -1,24 +1,38 @@
-development:
+development: &default
   adapter: postgresql
   encoding: unicode
   database: ketten_development
   pool: 5
-  username: cschep
-  password:
+  timeout: 5000
+  username: postgres
+  host: postgres
+  port: 5432
+
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: ketten_development
+#   pool: 5
+#   username: cschep
+#   password:
 
 test:
   adapter: postgresql
   encoding: unicode
   database: ketten_test
   pool: 5
-  username: cschep
-  password:
+  timeout: 5000
+  username: postgres
+  host: postgres
+  port: 5432
 
 production:
   adapter: postgresql
   encoding: unicode
   database: ketten_production
   pool: 5
-  host: localhost
+  timeout: 5000
+  host: postgres
   username: ketten
   password: kettenpass
+  port: 5432
