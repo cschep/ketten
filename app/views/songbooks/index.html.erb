@@ -20,7 +20,6 @@
           <td><%= songbook.default ? "Yes" : "No" %></td>
           <td><%= songbook.created_at %></td>
           <td>
-            <%= link_to "Edit", edit_songbook_path(songbook) %> |
             <%= link_to "Delete", songbook, :confirm => 'Are you sure?', :method => :delete %>
             <% if songbook.default != true %>
               | <%= link_to "Set Default", set_default_songbook_path(songbook), :confirm => 'Are you sure?', :method => :post %>

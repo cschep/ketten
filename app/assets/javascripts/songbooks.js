@@ -14,7 +14,7 @@ $(function() {
     'Title'
   ];
 
-  var songs = [{artist: 'bieber, justin', title: 'so hot right now'}];
+  var songs = [{artist: 'bieber, justin', title: 'what do u mean'}];
   $('#songbook-table').DataTable({
     pageLength: 100,
     data: songs,
@@ -25,6 +25,7 @@ $(function() {
   });
 
   var fileLabel = $('#songbook-file-label');
+  var fileName = $('#songbook-name');
   var songbookTableBody = $('#songbook-table-body');
 
   $('#songbook-refresh').on('click', function(e) {
@@ -37,15 +38,18 @@ $(function() {
 
   $('#songbook-save').on('click', function(e) {
     toggleLoading();
+    var name = fileName.val();
+    if (name === '') {
+      name = 'default name';
+    }
 
     $.ajax({
       type: 'POST',
       url: '/songbooks.json',
-      data: JSON.stringify({ songbook: { name: 'chris' }, song_list: songs }),
+      data: JSON.stringify({ songbook: { name: name }, song_list: songs }),
       contentType: 'application/json',
       success: function(data) {
-        toggleLoading();
-        showAlert('success');
+        window.location.href = '/songbooks';
       },
       error: function(data) {
         console.log('error: ' + data);
@@ -60,7 +64,8 @@ $(function() {
     var file = files[0];
 
     if (file) {
-      fileLabel.html(file.name);
+      fileLabel.hide();
+      fileName.show();
 
       var reader = new FileReader();
 
@@ -85,11 +90,10 @@ $(function() {
   };
 
   var parseFile = function() {
-    toggleLoading();
-    saveIgnoreList();
-
     if (window.Worker) {
       console.log('Web workers detected.. engage.');
+      toggleLoading();
+      saveIgnoreList();
 
       //TODO: just make the one worker and postMessage starts a job. Would that even help?
       rtfWorker = new Worker('/rtf_worker.js');
@@ -101,7 +105,7 @@ $(function() {
       rtfWorker.postMessage([rtfText, ignoreListStrings]);
 
     } else {
-      console.log('uh oh, web workers not enabled.');
+      showAlert('error');
     }
   };
 
@@ -124,8 +128,8 @@ $(function() {
 
   var showAlert = function(type) {
     var messages = {
-      'success': '<strong>Success!</strong> Songbook saved.',
-      'error': '<strong>Oh no!</strong> Songbook did not save. Refresh and try again?'
+      'success': '<strong>Success!</strong>',
+      'error': '<strong>Oh no!</strong> That didn\'t work. Refresh and try again?'
     }
 
     var html = '<div class="alert alert-' + type + '">' +

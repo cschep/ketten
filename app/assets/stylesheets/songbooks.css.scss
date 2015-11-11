@@ -12,6 +12,18 @@
   font-weight: bold;
 }
 
+#songbook-name {
+  color: grey;
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 400px;
+
+  display: none;
+}
+
 .btn-file {
   position: relative;
   overflow: hidden;

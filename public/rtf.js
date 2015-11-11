@@ -59,7 +59,7 @@ RTFParser.prototype.parse = function(cb) {
           if (bold) {
             currentArtist = currentWord;
           } else {
-            var song = {artist: currentArtist, title: currentWord}
+            var song = { artist: currentArtist, title: currentWord }
             if (this.onSong) {
               this.onSong(song);
             }
@@ -104,13 +104,13 @@ RTFParser.prototype.parse = function(cb) {
       } else if (ch === '}') {
         groupActive = false;
       } else {
-        if (!groupActive) {
+        // if (!groupActive) {
           if (controlWordActive) {
             currentControlWord += ch;
           } else {
             currentWord += ch;
           }
-        }
+        // }
       }
     }
   }
