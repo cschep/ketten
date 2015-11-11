@@ -1,5 +1,18 @@
 <h1><%= @songbook.name %> has <%= number_with_delimiter(@songbook.songs.count, :delimiter => ',') %> songs</h1>
 
+<script>
+  $(function() {
+    $('#songbook-table').DataTable({
+      pageLength: 100,
+      ajax: "/songbooks/<%= @songbook.id %>.json",
+      columns: [
+        { data: "artist" },
+        { data: "title" }
+      ]
+    });
+  });
+</script>
+
 <div class="row">
   <div class="span12">
     <h6>Results</h6>
@@ -10,11 +23,9 @@
           <tr><th>Artist</th><th>Title</th></tr>
         </thead>
         <tbody id="songbook-table-body">
-          <% @songbook.songs.each do |song| %>
-            <tr><td><%= song.artist %></td><td><%= song.title %></td></tr>
-          <% end %>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+

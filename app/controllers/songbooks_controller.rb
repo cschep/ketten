@@ -44,6 +44,10 @@ class SongbooksController < ApplicationController
 
   def show
     @songbook = Songbook.find_by_id(params[:id])
+    respond_to do |format|
+      format.html { render :action => "show" }
+      format.json { render :json => { data: @songbook.songs } }
+    end
   end
 
   def set_default

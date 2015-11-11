@@ -1,8 +1,6 @@
 $(function() {
-  if (document.getElementById('rtf-editor')) {
-    var editor = ace.edit("rtf-editor");
-    editor.renderer.setShowGutter(false);
-  }
+  var editor = ace.edit('rtf-editor');
+  editor.renderer.setShowGutter(false);
 
   var rtfWorker;
   var rtfText;
@@ -21,8 +19,8 @@ $(function() {
     pageLength: 100,
     data: songs,
     columns: [
-      { data: "artist" },
-      { data: "title" }
+      { data: 'artist' },
+      { data: 'title' }
     ]
   });
 
@@ -38,22 +36,27 @@ $(function() {
   });
 
   $('#songbook-save').on('click', function(e) {
+    toggleLoading();
+
     $.ajax({
       type: 'POST',
       url: '/songbooks.json',
       data: JSON.stringify({ songbook: { name: 'chris' }, song_list: songs }),
       contentType: 'application/json',
       success: function(data) {
-        console.log('success: ' + data);
+        toggleLoading();
+        showAlert('success');
       },
       error: function(data) {
         console.log('error: ' + data);
+        toggleLoading();
+        showAlert('error');
       }
     });
   });
 
   $('#songbook-file').on('change', function(e) {
-    var files = document.getElementById("songbook-file").files;
+    var files = document.getElementById('songbook-file').files;
     var file = files[0];
 
     if (file) {
@@ -111,12 +114,26 @@ $(function() {
   };
 
   var toggleLoading = function() {
-    console.log('loading toggled');
+    $('#songbook-save').prop('disabled', function(i, v) { return !v; });
     $('.spinner').toggle();
     var dataTable = $('#songbook-table').dataTable().api().table();
     if (dataTable) {
       $(dataTable.container()).toggle();
     }
+  };
+
+  var showAlert = function(type) {
+    var messages = {
+      'success': '<strong>Success!</strong> Songbook saved.',
+      'error': '<strong>Oh no!</strong> Songbook did not save. Refresh and try again?'
+    }
+
+    var html = '<div class="alert alert-' + type + '">' +
+                  '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                  messages[type] +
+               '</div>';
+
+    $('.feedback').append(html);
   };
 
 });
