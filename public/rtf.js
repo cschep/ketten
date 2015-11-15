@@ -21,6 +21,7 @@ RTFParser.prototype.parse = function(cb) {
   var controlWordActive = false;
   var groupActive = false;
   var bold = true;
+  var colorGroup = false;
   var garbageChars = 0;
 
   var result = [];
@@ -40,10 +41,13 @@ RTFParser.prototype.parse = function(cb) {
   }
 
   function checkControlWord() {
+    var  colorRegex = /c[f|b]\d/g;
     if (currentControlWord === 'b') {
       bold = true;
     } else if (currentControlWord === 'b0') {
       bold = false;
+    } else if (colorRegex.test(currentControlWord)) {
+      colorGroup = true;
     } else if (unicodeReplacements.hasOwnProperty(currentControlWord)) {
       currentWord += unicodeReplacements[currentControlWord];
     }
@@ -101,16 +105,18 @@ RTFParser.prototype.parse = function(cb) {
         }
       } else if (ch === '{') {
         groupActive = true;
+        currentWord = '';
       } else if (ch === '}') {
         groupActive = false;
+        colorGroup = false;
       } else {
-        // if (!groupActive) {
-          if (controlWordActive) {
-            currentControlWord += ch;
-          } else {
+        if (controlWordActive) {
+          currentControlWord += ch;
+        } else {
+          if (!groupActive || colorGroup) {
             currentWord += ch;
           }
-        // }
+        }
       }
     }
   }
@@ -127,4 +133,3 @@ if (typeof exports !== 'undefined') {
   }
   exports.RTFParser = RTFParser;
 }
-

@@ -17,7 +17,7 @@ describe('parse', function() {
       ];
 
       rtfParser.parse(function(result) {
-        assert.equal(31313, result.length);
+        assert.equal(31311, result.length);
         done();
       });
     });
@@ -83,4 +83,46 @@ describe('parse', function() {
       });
     });
   });
+
+  it('should parse most recent file correctly', function(done) {
+    fs.readFile(__dirname + '/data/ketten-111115.rtf', 'utf8', function(err, data) {
+      if (err) { console.log('error: ' + err) }
+      var rtfParser = new RTFParser(data);
+      rtfParser.ignoreList = [
+        /.*Song List Generator.*/g,
+        /.*iphone app!.*/g,
+        /.*John Brophy.*/g,
+        /.*rare and unique.*/g,
+        /.*BKK.*/g,
+        /.*Printed.*/g,
+      ];
+
+      rtfParser.parse(function(result) {
+        assert.equal(31896, result.length);
+        done();
+      });
+    });
+  });
+
+
+  it('should parse groups correctly', function(done) {
+    fs.readFile(__dirname + '/data/group_test.rtf', 'utf8', function(err, data) {
+      if (err) { console.log('error: ' + err) }
+      var rtfParser = new RTFParser(data);
+      rtfParser.ignoreList = [
+        /.*Song List Generator.*/g,
+        /.*iphone app!.*/g,
+        /.*John Brophy.*/g,
+        /.*rare and unique.*/g,
+        /.*BKK.*/g,
+        /.*Printed.*/g,
+      ];
+
+      rtfParser.parse(function(result) {
+        assert.equal(30, result.length);
+        done();
+      });
+    });
+  });
+
 });
