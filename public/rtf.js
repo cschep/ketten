@@ -37,8 +37,9 @@ RTFParser.prototype.parse = function(cb) {
     'u243': 'o',
     'u246': 'o',
     'u255': 'y',
-    'u339': 'oe'
-  }
+    'u339': 'oe',
+    'u8224': '†'
+  };
 
   function checkControlWord() {
     var  colorRegex = /c[f|b]\d/g;
