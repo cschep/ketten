@@ -1,11 +1,11 @@
-var assert = require('assert')
+var assert = require('assert');
 var RTFParser = require('../../public/rtf.js');
 var fs = require('fs');
 
 describe('parse', function() {
   it('should parse big file', function(done) {
     fs.readFile(__dirname + '/data/Song_List_by_Artist-NEW.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,
@@ -25,7 +25,7 @@ describe('parse', function() {
 
   it('should parse small file', function(done) {
     fs.readFile(__dirname + '/data/latest_ketten_small.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,
@@ -46,7 +46,7 @@ describe('parse', function() {
 
   it('should parse new broken file', function(done) {
     fs.readFile(__dirname + '/data/latest_broken.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,
@@ -66,7 +66,7 @@ describe('parse', function() {
 
   it('should parse unicode test file', function(done) {
     fs.readFile(__dirname + '/data/unicode_test.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,
@@ -86,7 +86,7 @@ describe('parse', function() {
 
   it('should parse most recent file correctly', function(done) {
     fs.readFile(__dirname + '/data/ketten-111115.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,
@@ -107,7 +107,7 @@ describe('parse', function() {
 
   it('should parse groups correctly', function(done) {
     fs.readFile(__dirname + '/data/group_test.rtf', 'utf8', function(err, data) {
-      if (err) { console.log('error: ' + err) }
+      if (err) { console.log('error: ' + err); }
       var rtfParser = new RTFParser(data);
       rtfParser.ignoreList = [
         /.*Song List Generator.*/g,

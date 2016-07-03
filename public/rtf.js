@@ -63,7 +63,7 @@ RTFParser.prototype.parse = function(cb) {
           if (bold) {
             currentArtist = currentWord;
           } else {
-            var song = { artist: currentArtist, title: currentWord }
+            var song = { artist: currentArtist, title: currentWord };
             if (this.onSong) {
               this.onSong(song);
             }

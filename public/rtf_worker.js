@@ -19,5 +19,4 @@ onmessage = function(e) {
   rtfParser.parse(function(songs) {
     postMessage(songs);
   });
-}
-
+};
