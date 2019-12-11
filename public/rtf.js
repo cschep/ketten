@@ -42,7 +42,7 @@ RTFParser.prototype.parse = function(cb) {
   };
 
   function checkControlWord() {
-    var  colorRegex = /c[f|b]\d/g;
+    var colorRegex = /c[f|b]\d/g;
     if (currentControlWord === 'b') {
       bold = true;
     } else if (currentControlWord === 'b0') {
