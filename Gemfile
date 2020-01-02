@@ -1,23 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.22'
+gem 'rails', '4.2.11.1'
 gem 'bootstrap-sass', '2.3.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'pg', '~> 0.20'
 gem 'devise'
 
 group :development, :test do
   gem 'test-unit'
-  gem 'rspec-rails', '2.99.0'
+  gem 'rspec-rails'
 end
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails', '~> 4.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -42,4 +42,4 @@ gem 'capistrano', '2.15.5'
 # To use debugger
 # gem 'debugger'
 
-gem 'activerecord-import', '0.3.1'
+# gem 'activerecord-import', '0.3.1'

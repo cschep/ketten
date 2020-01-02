@@ -3,8 +3,6 @@ class Songbook < ActiveRecord::Base
   has_many :songs, :dependent => :delete_all
   validates :name, :presence => {:message => 'Name cannot be blank.'}
 
-  attr_accessible :name, :songbook
-
   def create_songs_for_songbook(song_list)
     songs = []
     song_list.each do |song|
