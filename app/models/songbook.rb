@@ -1,11 +1,11 @@
-class Songbook < ActiveRecord::Base
+class Songbook < ApplicationRecord
   belongs_to :user
   has_many :songs, :dependent => :delete_all
   validates :name, :presence => {:message => 'Name cannot be blank.'}
 
-  def create_songs_for_songbook(song_list)
+  def create_songs_for_songbook(songlist)
     songs = []
-    song_list.each do |song|
+    songlist.each do |song|
       songs << Song.new({:artist => song[:artist],
                          :title => song[:title],
                          :songbook_id => self.id})

@@ -46,7 +46,7 @@ $(function() {
     $.ajax({
       type: 'POST',
       url: '/songbooks.json',
-      data: JSON.stringify({ songbook: { name: name }, song_list: songs }),
+      data: JSON.stringify({ songbook: { name: name }, songlist: { contents: songs } }),
       contentType: 'application/json',
       success: function(data) {
         window.location.href = '/songbooks';

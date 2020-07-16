@@ -10,13 +10,12 @@ class SongbooksController < ApplicationController
   end
 
   def create
-    @songbook = current_user.songbooks.build(params[:songbook])
+    @songbook = current_user.songbooks.build(songbook_params)
 
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
 
-      song_list = params[:song_list]
-      @songbook.create_songs_for_songbook(song_list)
+      @songbook.create_songs_for_songbook(params[:songlist][:contents])
 
       respond_to do |format|
         format.html { redirect_to :action => "index" }
@@ -63,5 +62,14 @@ class SongbooksController < ApplicationController
     end
 
     redirect_to :back
+  end
+
+private
+  def songbook_params
+    params.require(:songbook).permit(:name)
+  end
+
+  def songlist_params
+    params.require(:songlist).permit(:contents)
   end
 end
