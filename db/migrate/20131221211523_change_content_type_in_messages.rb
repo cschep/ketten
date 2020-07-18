@@ -1,4 +1,4 @@
-class ChangeContentTypeInMessages < ActiveRecord::Migration
+class ChangeContentTypeInMessages < ActiveRecord::Migration[6.0]
   def up
     change_column :messages, :content, :text
   end
