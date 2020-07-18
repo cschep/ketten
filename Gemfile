@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.0'
+gem 'rails', '5.1'
 gem 'bootstrap-sass', '2.3.2'
 
 # Bundle edge Rails instead:
@@ -9,9 +9,12 @@ gem 'bootstrap-sass', '2.3.2'
 gem "pg", "~> 0.18"
 gem 'devise'
 
+gem 'puma'
+
 group :development, :test do
   gem 'test-unit'
   gem 'rspec-rails'
+  gem 'listen'
 end
 
 # Gems used only for assets and not required
