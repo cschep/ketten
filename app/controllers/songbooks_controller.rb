@@ -38,7 +38,7 @@ class SongbooksController < ApplicationController
     @songbook = Songbook.find_by_id(params[:id])
     @songbook.destroy
 
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   def show
@@ -61,7 +61,7 @@ class SongbooksController < ApplicationController
       sb.save
     end
 
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
 private

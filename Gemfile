@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.1'
+gem 'rails', '5.2'
 gem 'bootstrap-sass', '2.3.2'
 
 # Bundle edge Rails instead:
@@ -10,6 +10,7 @@ gem "pg", "~> 0.18"
 gem 'devise'
 
 gem 'puma'
+gem 'bootsnap'
 
 group :development, :test do
   gem 'test-unit'
