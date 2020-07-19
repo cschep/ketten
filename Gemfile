@@ -13,6 +13,7 @@ gem 'devise'
 
 gem 'puma'
 gem 'bootsnap'
+gem 'lograge'
 
 group :development, :test do
   gem 'test-unit'
