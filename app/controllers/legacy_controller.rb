@@ -42,7 +42,6 @@ class LegacyController < ApplicationController
                       :num_results => @songs.count,
                       :ip_address => request.ip,
                       :songbook_id => songbook.id)
-
       end
     end
 

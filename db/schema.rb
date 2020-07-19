@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_18_022456) do
+ActiveRecord::Schema.define(version: 2020_07_19_000522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,14 +41,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_022456) do
     t.integer "user_id"
     t.string "songbook"
     t.boolean "default"
-  end
-
-  create_table "songs", id: :serial, force: :cascade do |t|
-    t.string "artist"
-    t.string "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "songbook_id"
+    t.jsonb "songs_json", default: [], null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

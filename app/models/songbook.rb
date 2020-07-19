@@ -1,31 +1,13 @@
 class Songbook < ApplicationRecord
   belongs_to :user
-  has_many :songs, :dependent => :delete_all
+  has_many :songs
   validates :name, :presence => {:message => 'Name cannot be blank.'}
-
-  def create_songs_for_songbook(songlist)
-    songs = []
-    songlist.each do |song|
-      songs << Song.new({:artist => song[:artist],
-                         :title => song[:title],
-                         :songbook_id => self.id})
-    end
-
-    # the log for this is insanity in dev
-    ActiveRecord::Base.logger.level = 1
-    Song.import(songs)
-    ActiveRecord::Base.logger.level = 0
-  end
 
   def search(search_term, search_by)
     search_term.downcase!
     search_by.downcase!
 
-    search_type = "artist"
-    if search_by == "title"
-      search_type = "title"
-    end
-
+    search_type = search_by == "title" ? "title" : "artist"
     search_string = "#{search_type} like ?"
 
     search_term.split.each do |term|

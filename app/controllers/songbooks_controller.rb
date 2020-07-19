@@ -15,8 +15,6 @@ class SongbooksController < ApplicationController
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
 
-      @songbook.create_songs_for_songbook(params[:songlist][:contents])
-
       respond_to do |format|
         format.html { redirect_to :action => "index" }
         format.json { render :json => @songbook }
@@ -66,10 +64,6 @@ class SongbooksController < ApplicationController
 
 private
   def songbook_params
-    params.require(:songbook).permit(:name)
-  end
-
-  def songlist_params
-    params.require(:songlist).permit(:contents)
+    params.require(:songbook).permit(:name, songs_json: [:artist, :title])
   end
 end
