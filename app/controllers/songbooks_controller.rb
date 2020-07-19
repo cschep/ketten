@@ -27,6 +27,7 @@ class SongbooksController < ApplicationController
         format.json { render :json => @songbook.errors }
       end
     end
+
   end
 
   def edit
