@@ -1,6 +1,6 @@
 <h1>Your Songbooks</h1>
 
-<%= link_to "Upload New Songbook", new_songbook_path, :class => "btn btn-success pull-right"  %>
+<%= link_to "Upload New Songbook", new_songbook_path, class: "btn btn-success pull-right"  %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -20,9 +20,9 @@
           <td><%= songbook.default ? "Yes" : "No" %></td>
           <td><%= songbook.created_at %></td>
           <td>
-            <%= link_to "Delete", songbook, :confirm => 'Are you sure?', :method => :delete %>
+            <%= link_to "Delete", songbook, :confirm => 'Are you sure?', method: :delete %>
             <% if songbook.default != true %>
-              | <%= link_to "Set Default", set_default_songbook_path(songbook), :confirm => 'Are you sure?', :method => :post %>
+              | <%= link_to "Set Default", set_default_songbook_path(songbook), confirm: 'Are you sure?', method: :post %>
             <% end %>
           </td>
         </tr>

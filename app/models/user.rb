@@ -13,10 +13,10 @@ class User < ApplicationRecord
   end
 
   def default_songbook
-    self.songbooks.where(:default => true).first
+    self.songbooks.where(default: true).first
   end
 
   def live_message
-    self.messages.where(:live => true).first
+    self.messages.where(live: true).first
   end
 end

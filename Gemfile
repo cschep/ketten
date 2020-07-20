@@ -15,13 +15,6 @@ gem 'puma'
 gem 'bootsnap'
 gem 'lograge'
 
-group :development do
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rbenv'
-end
-
 group :development, :test do
   gem 'test-unit'
   gem 'rspec-rails'

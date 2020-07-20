@@ -1,7 +1,7 @@
 class Songbook < ApplicationRecord
   belongs_to :user
   has_many :songs
-  validates :name, :presence => {:message => 'Name cannot be blank.'}
+  validates :name, presence: { message: 'Name cannot be blank.' }
 
   def search(search_term, search_by)
     search_term.downcase!
