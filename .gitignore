@@ -18,3 +18,5 @@
 unicorn
 
 uploads
+
+/config/master.key

@@ -15,6 +15,13 @@ gem 'puma'
 gem 'bootsnap'
 gem 'lograge'
 
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+end
+
 group :development, :test do
   gem 'test-unit'
   gem 'rspec-rails'
@@ -39,12 +46,6 @@ gem 'jquery-rails'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-# Use unicorn as the app server
-gem 'unicorn'
-
-# Deploy with Capistrano
-gem 'capistrano', '2.15.5'
 
 # To use debugger
 # gem 'debugger'

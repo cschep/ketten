@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - app-vars.yml
+
+  roles:
+    # - role: common
+    # - role: user
+    # - role: ssh
+    # - role: ruby
+    # - role: nodejs
+    # - role: yarn
+    # - role: postgresql
+    - role: nginx
+    # - role: ufw
