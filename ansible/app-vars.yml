@@ -4,11 +4,11 @@ deploy_user:        deployer
 deploy_group:       "{{ deploy_user }}"
 deploy_user_path:   "/home/{{ deploy_user }}"
 
-# App Git repo
-app_git_repo:       "YOUR_GIT_REPO"
+# app git repo
+app_git_repo:       "git@github.com:cschep/ketten.git"
 app_git_branch:     "master"
 
-# Rails app
+# rails app
 app_root_path:      "{{ deploy_user_path }}/{{ app_name }}"
 app_current_path:   "{{ app_root_path }}/current"
 app_releases_path:  "{{ app_root_path }}/releases"
@@ -19,16 +19,16 @@ app_sockets_path:   "{{ app_shared_path }}/sockets"
 rails_db_pool:      20
 rails_environment:  production
 
-# Puma
+# puma
 puma_service_file:  "puma.service.j2"
 puma_config_file:   "{{ app_current_path }}/config/puma.rb"
 puma_socket:        "{{ app_sockets_path }}/puma.sock"
 puma_web_concurrency: 2
 
-# Sidekiq
-sidekiq_service_file:  "sidekiq.service.j2"
+# sidekiq
+# sidekiq_service_file:  "sidekiq.service.j2"
 
-# Ansistrano
+# ansistrano
 ansistrano_deploy_to: "{{ app_root_path }}"
 ansistrano_keep_releases: 3
 ansistrano_deploy_via: git
@@ -38,6 +38,9 @@ ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/deploy_tasks/after_clea
 ansistrano_git_identity_key_path: "~/.ssh/id_rsa"
 ansistrano_ensure_shared_paths_exist: yes
 ansistrano_ensure_basedirs_shared_files_exist: yes
+
+# this seems right
+ansistrano_allow_anonymous_stats: false
 
 ansistrano_shared_paths:
   - log           # log -> ../../shared/log
@@ -50,7 +53,7 @@ ansistrano_shared_paths:
 shared_files_to_copy:
   - { src: database.yml.j2, dest: config/database.yml }
 
-# Common
+# common
 required_packages:
   - acl
   - zlib1g-dev
@@ -68,8 +71,8 @@ required_packages:
   - bison
   - libreadline6-dev
   - libncurses5-dev
-  # - libgdbm5
-  # - libgdbm-dev
+  - libgdbm6
+  - libgdbm-dev
   - libpq-dev # postgresql client
   - libjemalloc-dev # jemalloc
 
@@ -77,7 +80,7 @@ ufw_rules:
   - { rule: "allow", proto: "tcp", from: "any", port: "80" }
   - { rule: "allow", proto: "tcp", from: "any", port: "443" }
 
-# Ruby
+# ruby
 ruby_version: 2.6.6
 rbenv_ruby_configure_opts: "RUBY_CONFIGURE_OPTS=--with-jemalloc"
 rbenv_root_path: "{{ deploy_user_path }}/.rbenv"
@@ -87,34 +90,32 @@ ruby_path: "{{ rubies_path }}/{{ ruby_version }}"
 rbenv_bin: "{{ rbenv_root_path }}/bin/rbenv"
 rbenv_bundle: "{{ rbenv_root_path }}/shims/bundle"
 
-# Nodejs
+# nodejs
 nodejs_version: "12.x"
 
-# Postgresql
+# postgresql
 postgresql_version: "12"
-postgresql_db_user: "{{ deploy_user }}_postgresql_user"
+postgresql_db_user: "{{ deploy_user }}_postgresql_user" # deployer_ NOT ketten_
 postgresql_db_password: "{{ vault_postgresql_db_password }}" # from vault
 postgresql_db_name: "{{ app_name }}_production"
 postgresql_listen:
   - "localhost"
-  - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
-
+  # - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
 
 # nginx
-nginx_https_enabled: false # replace after setting up certbot
+nginx_https_enabled: true
 nginx_conf_template: "nginx.conf.j2"
 
-
 # certbot
-# certbot_email: "admin@{{ inventory_hostname }}"
-# certbot_domains:
-#   - "{{ inventory_hostname }}"
-#   - "www.{{ inventory_hostname }}"
+certbot_email: "admin@{{ inventory_hostname }}"
+certbot_domains:
+  - "{{ inventory_hostname }}"
+  # - "www.{{ inventory_hostname }}"
 
-
-# PostgreSQL Backup to S3
-aws_key: "{{ vault_aws_key }}"
-aws_secret: "{{ vault_aws_secret }}"
+# TODO: figure out backups
+# postgre backup to S3
+# aws_key: "{{ vault_aws_key }}"
+# aws_secret: "{{ vault_aws_secret }}"
 
 postgresql_backup_dir: "{{ deploy_user_path }}/backups"
 postgresql_backup_filename_format: >-
@@ -125,6 +126,22 @@ postgresql_s3_backup_hour: "3"
 postgresql_s3_backup_minute: "*"
 postgresql_s3_backup_delete_after: "7 days" # days after which old backups should be deleted
 
+# TODO: this seems important
+logrotate_conf:
+  - path: "ansible"
+    conf: |
+      "{{ app_current_path }}/log/*.log" {
+        weekly
+        size 100M
+        missingok
+        rotate 12
+        compress
+        delaycompress
+        notifempty
+        copytruncate
+      }
+
+# TODO: what is this?
 # fluentbit
 fluentbit_inputs:
   - Name: tail
@@ -141,17 +158,3 @@ fluentbit_outputs:
     Json_Date_Key: timestamp
     Json_Date_Format: iso8601
     Retry_Limit: False
-
-logrotate_conf:
-  - path: "ansible"
-    conf: |
-      "{{ app_current_path }}/log/*.log" {
-        weekly
-        size 100M
-        missingok
-        rotate 12
-        compress
-        delaycompress
-        notifempty
-        copytruncate
-      }
