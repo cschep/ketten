@@ -20,5 +20,5 @@ production:
   database: ketten_production
   pool: 5
   host: localhost
-  username: ketten
-  password: kettenp4ssw0rd
+  username: ketten_postgresql_user
+  password: XXXXX_SUPER_SECURE_PASS_XXXXX
