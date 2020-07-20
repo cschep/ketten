@@ -5,12 +5,20 @@
     - app-vars.yml
 
   roles:
-    # - role: common
-    # - role: user
-    # - role: ssh
-    # - role: ruby
-    # - role: nodejs
-    # - role: yarn
-    # - role: postgresql
+    - role: common
+    - role: user
+    - role: ssh
+    - role: ruby
+      tags: ruby
+    - role: nodejs
+      tags: nodejs
+    - role: yarn
+      tags: nodejs
+    - role: postgresql
+      tags: postgresql
+    # - role: redis
+    #   tags: redis
     - role: nginx
-    # - role: ufw
+      tags: nginx
+    # - role: logrotate
+    #   tags: logrotate
