@@ -5,8 +5,6 @@
     - app-vars.yml
 
   roles:
-    - role: common
-    - role: user
     - role: ssh
     - role: ruby
       tags: ruby

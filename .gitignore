@@ -19,8 +19,9 @@ unicorn
 
 uploads
 
+
+# secrets
 /config/master.key
-
 /config/credentials/development.key
-
 /config/credentials/production.key
+.vault_pass
