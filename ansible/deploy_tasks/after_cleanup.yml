@@ -3,11 +3,20 @@
   bundler:
     state: present
     deployment_mode: yes
-    gem_path: "../../shared/vendor/bundle" # relative to chdir
+    gem_path: "../../shared/gemvendor/bundle" # relative to chdir
     chdir: "{{ ansistrano_release_path.stdout }}"
     exclude_groups: ["development", "test"]
     executable: "{{ rbenv_bundle }}"
-    
+
+- name: symlink database.yml
+  file:
+    src: "{{ app_shared_path }}/config/database.yml"
+    dest: "{{ app_current_path }}/config/database.yml"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
+    state: link
+    force: yes
+
 - name: Running pending migrations
   shell: "{{ rbenv_bundle }} exec rake db:migrate"
   run_once: true
