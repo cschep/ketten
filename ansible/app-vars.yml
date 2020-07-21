@@ -103,13 +103,13 @@ postgresql_listen:
   # - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
 
 # nginx
-nginx_https_enabled: false
+nginx_https_enabled: true
 nginx_conf_template: "nginx.conf.j2"
 
 # certbot
 certbot_email: "kettenadmin@schepman.org"
 certbot_domains:
-  - "bkk.schepman.org"
+  - "ketten.schepman.org"
 
 # TODO: figure out backups
 # postgre backup to S3
