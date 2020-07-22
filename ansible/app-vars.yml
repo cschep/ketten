@@ -35,7 +35,6 @@ ansistrano_deploy_via: git
 ansistrano_git_repo: "{{ app_git_repo }}"
 ansistrano_git_branch: "{{ app_git_branch }}"
 ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/deploy_tasks/after_cleanup.yml"
-# ansistrano_git_identity_key_path: "~/.ssh/id_rsa"
 ansistrano_ensure_shared_paths_exist: yes
 ansistrano_ensure_basedirs_shared_files_exist: yes
 
@@ -45,7 +44,7 @@ ansistrano_allow_anonymous_stats: false
 ansistrano_shared_paths:
   - log           # log -> ../../shared/log
   - tmp           # tmp -> ../../shared/tmp
-  - gemvendor     # vendor -> ../../shared/vendor
+  - gemvendor     # gemvendor -> ../../shared/gemvendor
   - public/assets # For rails asset pipeline
   - public/packs  # For webpacker
   - node_modules  # For webpacker node_modules -> ../../shared/node_modules
@@ -102,14 +101,16 @@ postgresql_listen:
   - "localhost"
   # - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
 
+app_domain: "ketten.schepman.org"
+
 # nginx
 nginx_https_enabled: true
-nginx_conf_template: "nginx.conf.j2"
+nginx_site_conf_template: "nginx.ssl.rails.puma.site.conf.j2"
 
 # certbot
 certbot_email: "kettenadmin@schepman.org"
 certbot_domains:
-  - "ketten.schepman.org"
+  - "{{ app_domain }}"
 
 # TODO: figure out backups
 # postgre backup to S3

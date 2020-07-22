@@ -40,18 +40,18 @@
     - sites-available
     - sites-enabled
 
-- name: Copy nginx configuration in place
+- name: Copy nginx site configuration in place
   template:
-    src: "{{ nginx_conf_template }}"
-    dest: "/etc/nginx/sites-available/default"
+    src: "{{ nginx_site_conf_template }}"
+    dest: "/etc/nginx/sites-available/{{ app_domain }}"
     owner: "{{ deploy_user }}"
     group: "{{ deploy_group }}"
     mode: 0644
 
 - name: Symlink default site
   file:
-    src: /etc/nginx/sites-available/default
-    dest: /etc/nginx/sites-enabled/default
+    src: /etc/nginx/sites-available/{{ app_domain }}
+    dest: /etc/nginx/sites-enabled/{{ app_domain }}
     state: link
 
 - name: Set nginx user

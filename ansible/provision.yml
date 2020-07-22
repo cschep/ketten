@@ -14,11 +14,14 @@
       tags: nodejs
     - role: postgresql
       tags: postgresql
-    # - role: redis
-    #   tags: redis
+  # - role: redis
+  #   tags: redis
     - role: nginx
       tags: nginx
-    # - role: logrotate
-    #   tags: logrotate
     - role: certbot
       tags: certbot
+    - role: ufw
+      tags: ufw
+  # - role: logrotate
+  #   tags: logrotate
+
