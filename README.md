@@ -1,1 +1,21 @@
-the rails version of the ever popular backend for baby ketten's iOS app
+# KETTEN
+
+This is the backend that powers the baby ketten song search. On the website and in the app.
+
+It is rails. Recently updated to 6!
+
+It is deployed with Ansible.
+
+More? Here we go.
+
+## Getting started
+
+So you want your very own karaoke songbook service? Or.. more likely it could be useful to poke around and see how things are setup, deployed, etc. You've come to the right place!
+
+I had a few hurdles and chores when it came to the deploy so I'd like to document them and perhaps that will help someone.
+
+### Thanks
+
+https://github.com/EmailThis/ansible-rails
+
+Major thanks to https://github.com/noahgibbs/ansible-codefolio for having a working example!
