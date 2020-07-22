@@ -10,41 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_000522) do
+ActiveRecord::Schema.define(version: 2020_07_18_022456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "messages", id: :serial, force: :cascade do |t|
-    t.text "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean "live"
-    t.integer "user_id"
-  end
-
-  create_table "searches", id: :serial, force: :cascade do |t|
+  create_table "searches", force: :cascade do |t|
     t.string "search_term"
     t.string "search_by"
     t.string "user_agent"
     t.integer "num_results"
     t.string "ip_address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "songbook_id"
+    t.bigint "songbook_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["songbook_id"], name: "index_searches_on_songbook_id"
   end
 
-  create_table "songbooks", id: :serial, force: :cascade do |t|
+  create_table "songbooks", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "user_id"
-    t.string "songbook"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.boolean "default"
-    t.jsonb "songs_json", default: [], null: false
+    t.index ["user_id"], name: "index_songbooks_on_user_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "songs", force: :cascade do |t|
+    t.text "artist"
+    t.text "title"
+    t.bigint "songbook_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["songbook_id"], name: "index_songs_on_songbook_id"
+  end
+
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -55,13 +56,14 @@ ActiveRecord::Schema.define(version: 2020_07_19_000522) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "first_name"
-    t.string "last_name"
-    t.boolean "ketten"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "ketten", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "searches", "songbooks"
+  add_foreign_key "songbooks", "users"
+  add_foreign_key "songs", "songbooks"
 end

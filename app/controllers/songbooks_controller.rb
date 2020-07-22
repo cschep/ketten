@@ -15,6 +15,8 @@ class SongbooksController < ApplicationController
     if @songbook.save
       flash[:notice] = "Successfully created songbook."
 
+      @songbook.create_songs_for_songbook(params[:songlist])
+
       respond_to do |format|
         format.html { redirect_to :action => "index" }
         format.json { render :json => @songbook }
@@ -27,36 +29,6 @@ class SongbooksController < ApplicationController
         format.json { render :json => @songbook.errors }
       end
     end
-  end
-
-  def add_songs
-    # @songbook = Songbook.find_by_id(params[:id])
-    # puts "adding to #{@songbook}"
-    # songs_json = request.raw_post
-    # puts songs_json
-    # @songbook.songs_json = songs_json
-
-    query = <<-SQL
-      UPDATE "songbooks" SET "songs_json" = '#{request.raw_post}' WHERE "songbooks"."id" = #{params[:id]}
-    SQL
-    result = ActiveRecord::Base.connection.execute(query)
-    puts result
-
-    # if @songbook.save
-    #   flash[:notice] = "Successfully created songbook."
-
-    #   respond_to do |format|
-    #     format.html { redirect_to :action => "index" }
-    #     format.json { render :json => @songbook }
-    #   end
-    # else
-    #   flash[:error] = @songbook.errors.full_messages.join(": ")
-
-    #   respond_to do |format|
-    #     format.html { render :action => "new" }
-    #     format.json { render :json => @songbook.errors }
-    #   end
-    # end
   end
 
   def edit

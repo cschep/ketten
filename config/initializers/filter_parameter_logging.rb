@@ -1,9 +1,9 @@
 # Be sure to restart your server when you modify this file.
 
 # Configure sensitive parameters which will be filtered from the log file.
-Rails.application.config.filter_parameters += [:password, :songs_json]
+Rails.application.config.filter_parameters += [:password, :songlist]
 
-# for sql logging
+#for sql logging
 module LogTruncater
   def render_bind(attr, value)
     num_chars = Integer(ENV['ACTIVERECORD_SQL_LOG_MAX_VALUE']) rescue 120

@@ -17,9 +17,15 @@ I had a few hurdles and chores when it came to the deploy so I'd like to documen
 
 ### Notes to self
 
-Using an SSH tunnel to connect to the production postgres.
+#### Postgres
+
+Using an SSH tunnel to connect to the production postgres:
 
 `ssh -L 5433:localhost:5432 deployer@ketten.schepman.org`
+
+Migrating data from one server to another:
+
+
 
 ### Thanks
 

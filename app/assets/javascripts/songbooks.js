@@ -46,10 +46,10 @@ $(function() {
     $.ajax({
       type: 'POST',
       url: '/songbooks.json',
-      data: JSON.stringify({ songbook: { name: name } }),
+      data: JSON.stringify({ songbook: { name: name }, songlist: songs }),
       contentType: 'application/json',
       success: function(songbook) {
-        addSongsToSongbook(songbook);
+        window.location.href = '/songbooks';
       },
       error: function(data) {
         console.log('error: ' + data);
@@ -78,25 +78,6 @@ $(function() {
       reader.readAsText(file);
     }
   });
-
-  var addSongsToSongbook = function(songbook) {
-    $.ajax({
-      type: 'POST',
-      url: '/songbooks/' + songbook.id + '/add_songs',
-      data: JSON.stringify(songs),
-      contentType: 'text/plain',
-      success: function(data) {
-        window.location.href = '/songbooks';
-      },
-      error: function(data) {
-        console.log('error: ' + data);
-        toggleLoading();
-        showAlert('error');
-      }
-    });
-  }
-
-  //
 
   var displayIgnoreList = function() {
     var ignoreListText = ignoreListStrings.join('\n');

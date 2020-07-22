@@ -1,7 +1,20 @@
 class Songbook < ApplicationRecord
   belongs_to :user
-  has_many :songs
+  has_many :songs, :dependent => :delete_all
   validates :name, presence: { message: 'Name cannot be blank.' }
+
+  def create_songs_for_songbook(songlist)
+    now = Time.now.utc
+    songlist.map do |s|
+      s[:songbook_id] = self.id
+      s[:created_at] = now
+      s[:updated_at] = now
+    end
+
+    ActiveRecord::Base.logger.silence do
+      Song.insert_all!(songlist)
+    end
+  end
 
   def search(search_term, search_by)
     search_term.downcase!

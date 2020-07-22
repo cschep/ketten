@@ -6,6 +6,7 @@ class CreateSearches < ActiveRecord::Migration[6.0]
       t.string :user_agent
       t.integer :num_results
       t.string :ip_address
+      t.references :songbook, null: false, foreign_key: true
 
       t.timestamps
     end
