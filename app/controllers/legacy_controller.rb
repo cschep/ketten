@@ -1,4 +1,6 @@
 class LegacyController < ApplicationController
+  protect_from_forgery except: :jsonp
+
   def json
     @songs = searchdb(params[:search], params[:searchby])
     render :json => @songs.to_json(:only => [:artist, :title]), :root => false

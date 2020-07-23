@@ -21,11 +21,11 @@ I had a few hurdles and chores when it came to the deploy so I'd like to documen
 
 Using an SSH tunnel to connect to the production postgres:
 
-`ssh -L 5433:localhost:5432 deployer@ketten.schepman.org`
+`ssh -L 5433:localhost:5432 deployer@bkk.schepman.org`
 
 Migrating data from one server to another:
 
-
+``
 
 ### Thanks
 

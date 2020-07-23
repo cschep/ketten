@@ -101,7 +101,7 @@ postgresql_listen:
   - "localhost"
   # - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
 
-app_domain: "ketten.schepman.org"
+app_domain: "bkk.schepman.org"
 
 # nginx
 nginx_https_enabled: true
