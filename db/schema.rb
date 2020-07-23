@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_022456) do
     t.string "user_agent"
     t.integer "num_results"
     t.string "ip_address"
-    t.bigint "songbook_id", null: false
+    t.bigint "songbook_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["songbook_id"], name: "index_searches_on_songbook_id"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_022456) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "searches", "songbooks"
   add_foreign_key "songbooks", "users"
   add_foreign_key "songs", "songbooks"
 end

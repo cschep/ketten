@@ -16,7 +16,7 @@ class LegacyController < ApplicationController
       @songs = songbook.songs.order('random()').limit(20)
       render :json => @songs.to_json(:only => [:artist, :title]), :root => false
 
-      Search.create(:search_term => "random", :search_by => "random", :user_agent => request.user_agent, :num_results => @songs.count, :ip_address => request.ip)
+      Search.create(:search_term => "random", :search_by => "random", :user_agent => request.user_agent, :num_results => @songs.count, :ip_address => request.ip, :songbook_id => songbook.id)
     else
       render :json => [].to_json(), :root => false
     end
