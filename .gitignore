@@ -19,6 +19,8 @@ unicorn
 
 uploads
 
+postgres_backups
+
 
 # secrets
 /config/master.key
