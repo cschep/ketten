@@ -14,13 +14,7 @@
 /log/*.log
 /tmp
 
-# I'm not sure this should even be in here
-unicorn
-
 uploads
-
-postgres_backups
-
 
 # secrets
 /config/master.key
