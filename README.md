@@ -59,8 +59,11 @@ The final, and repeatable step is to deploy.
 
 From the ansible directory, run `ansible-playbook -i inventories/production.ini deploy.yml`
 
+I have a `deploy.sh` script from the root of the project that calls this very command. Feel free to enjoy that little treat.
 
-Now you have a box with
+#### Step 8.
+
+There is no Step 8! Head to your domain and you should see Rails serving up your beautiful application. Woo!
 
 ### Thanks
 
