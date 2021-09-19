@@ -1,9 +1,23 @@
-<div class="center hero-unit">
+<div class="center jumbotron">
   <h1>Karaoke Songbooks Online</h1>
 
   <h2>
     The best place to put your karaoke songbooks online.
   </h2>
 
-  <%= link_to "Sign up now!", new_user_registration_path, class: "btn btn-large btn-primary" %>
+  <%= link_to "Sign up now!", new_user_registration_path, class: "btn btn-default btn-lg btn-primary" %>
 </div>
+
+<footer class="footer">
+  <small>
+    <%= link_to "Karaoke Songbooks Online", root_path %>
+    by Chris Schepman
+  </small>
+
+  <nav>
+    <ul>
+      <li><%= link_to "Contact", '#' %></li>
+    </ul>
+  </nav>
+</footer>
+

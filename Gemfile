@@ -1,31 +1,23 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '3.0.2'
 
-gem 'rails', '6.1.3.1'
+gem "tailwindcss-rails", "~> 0.4.3"
+gem 'sassc-rails'
 
-gem 'bootstrap-sass', '2.3.2'
+gem 'rails', '6.1.4.1'
+
 gem "pg", "~> 1.2.3"
 gem 'devise'
 gem 'puma'
 gem 'bootsnap'
 gem 'lograge'
 
+gem 'uglifier'
+gem 'jquery-rails'
+
 group :development, :test do
   gem 'test-unit'
   gem 'rspec-rails'
   gem 'listen'
 end
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem 'uglifier'
-end
-
-gem 'jquery-rails'

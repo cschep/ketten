@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
 //= require ace.js
 //= require jquery.dataTables.min.js
 //= require dataTables.bootstrap.2.js

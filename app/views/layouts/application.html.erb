@@ -2,57 +2,48 @@
 <html>
   <head>
     <title>Karaoke Songbooks Online</title>
+    <%= stylesheet_link_tag "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "menu.js" %>
     <%= csrf_meta_tags %>
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
   <body>
 
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <%= link_to "KARAOKE SONGBOOKS ONLINE", root_path, id: "logo" %>
-
-          <nav>
-            <ul class="nav pull-right">
-              <% if user_signed_in? %>
-                <li><%= link_to "Songbooks", songbooks_path %></li>
-                <li><%= link_to "Account", edit_user_registration_path %></li>
-                <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-              <% else %>
-                <li><%= link_to "Sign up", new_user_registration_path %></li>
-                <li><%= link_to "Login", new_user_session_path %></li>
-              <% end %>
-            </ul>
-          </nav>
-
+    <header class="bg-gray-900 text-gray-100">
+      <div class="flex items-center justify-between px-4 py-3">
+        <div>
+          <%= link_to "KARAOKE", root_path, id: "logo", class: "text-2xl" %>
         </div>
+        <div class="">
+          <button id="menu-btn" type="button" class="text-gray-300 hover:text-gray-100" onclick="navToggle();">
+            <svg viewBox="0 0 100 100" class="h-6 w-6 fill-current">
+              <rect width="100" height="20"></rect>
+              <rect y="30" width="100" height="20"></rect>
+              <rect y="60" width="100" height="20"></rect>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="menu" class="px-2 pt-2 pb-4">
+        <% if user_signed_in? %>
+          <%= link_to "Songbooks", songbooks_path, class: "" %>
+          <%= link_to "Account", edit_user_registration_path, class: "" %>
+          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to "Sign up", new_user_registration_path, class: "font-semibold block p-2 py-1 rounded hover:bg-gray-700" %>
+          <%= link_to "Login", new_user_session_path, class: "mt-1 font-semibold block p-2 py-1 rounded hover:bg-gray-700" %>
+        <% end %>
       </div>
     </header>
 
     <div class="container">
-
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
 
       <%= yield %>
-
-      <footer class="footer">
-        <small>
-          <%= link_to "Karaoke Songbooks Online", root_path %>
-          by Chris Schepman
-        </small>
-
-        <nav>
-          <ul>
-            <li><%= link_to "Contact", '#' %></li>
-          </ul>
-        </nav>
-      </footer>
 
     </div>
   </body>
