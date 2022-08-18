@@ -62,9 +62,24 @@ RTFParser.prototype.parse = function(cb) {
       if (ch === '\n') {
         if (currentWord !== '') {
           if (bold) {
-            currentArtist = currentWord;
+            currentArtist = currentWord.replace('\t', '');
           } else {
-            var song = { artist: currentArtist, title: currentWord };
+            let parts = currentWord.trim().split('\t(');
+
+            var title, brand;
+            if (parts.length > 1) {
+              title = parts[0];
+              brand = parts[1].replace(')', '');
+            } else if (parts.length > 0) {
+              title = parts[0];
+            }
+
+            if (brand == undefined) {
+              var song = { artist: currentArtist, title: title };
+            } else {
+              var song = { artist: currentArtist, title: title, brand: brand };
+            }
+
             if (this.onSong) {
               this.onSong(song);
             }
@@ -82,19 +97,18 @@ RTFParser.prototype.parse = function(cb) {
         } else {
           controlWordActive = true;
         }
+      // } else if (ch === '\'') {
+      //   if (controlWordActive) {
+      //     controlWordActive = false;
+      //     garbageChars = 2;
+      //   }
+      // } else if (ch === '\t') {
+      //   if (controlWordActive) {
+      //     checkControlWord();
 
-      } else if (ch === '\'') {
-        if (controlWordActive) {
-          controlWordActive = false;
-          garbageChars = 2;
-        }
-      } else if (ch === '\t') {
-        if (controlWordActive) {
-          checkControlWord();
-
-          currentControlWord = '';
-          controlWordActive = false;
-        }
+      //     currentControlWord = '';
+      //     controlWordActive = false;
+      //   }
       } else if (ch === ' ') {
         if (controlWordActive) {
           checkControlWord();
@@ -127,10 +141,36 @@ RTFParser.prototype.parse = function(cb) {
   }
 };
 
-//I S O M O R P H I C
+// Do we really need this?
 if (typeof exports !== 'undefined') {
   if (typeof module !== 'undefined' && module.exports) {
     exports = module.exports = RTFParser;
   }
   exports.RTFParser = RTFParser;
+}
+
+const fs = require('fs');
+try {
+  const rtfText = fs.readFileSync('/Users/cschep/Downloads/81122.rtf', 'utf8');
+  const rtfParser = new RTFParser(rtfText);
+  const ignoreListStrings = [
+    "Song List Generator",
+    "iphone app!",
+    "John Brophy",
+    "rare and unique",
+    "BKK",
+    "Printed",
+    "Title",
+  ];
+  rtfParser.ignoreList = ignoreListStrings.map(function(item) {
+    if (item !== '') {
+      return new RegExp('.*' + item + '.*', 'g');
+    }
+  });
+  rtfParser.parse(function(songs) {
+    console.log(songs);
+  });
+
+} catch (err) {
+  console.error(err);
 }
