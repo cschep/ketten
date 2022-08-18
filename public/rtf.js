@@ -97,6 +97,8 @@ RTFParser.prototype.parse = function(cb) {
         } else {
           controlWordActive = true;
         }
+      // TODO: so we wanted to put apostrophes back in
+      //       and also we put tabs back in so we could parse brands if we are there
       // } else if (ch === '\'') {
       //   if (controlWordActive) {
       //     controlWordActive = false;
@@ -149,28 +151,30 @@ if (typeof exports !== 'undefined') {
   exports.RTFParser = RTFParser;
 }
 
-const fs = require('fs');
-try {
-  const rtfText = fs.readFileSync('/Users/cschep/Downloads/81122.rtf', 'utf8');
-  const rtfParser = new RTFParser(rtfText);
-  const ignoreListStrings = [
-    "Song List Generator",
-    "iphone app!",
-    "John Brophy",
-    "rare and unique",
-    "BKK",
-    "Printed",
-    "Title",
-  ];
-  rtfParser.ignoreList = ignoreListStrings.map(function(item) {
-    if (item !== '') {
-      return new RegExp('.*' + item + '.*', 'g');
-    }
-  });
-  rtfParser.parse(function(songs) {
-    console.log(songs);
-  });
+// This is useful!
+//
+// const fs = require('fs');
+// try {
+//   const rtfText = fs.readFileSync('/Users/cschep/Downloads/81122.rtf', 'utf8');
+//   const rtfParser = new RTFParser(rtfText);
+//   const ignoreListStrings = [
+//     "Song List Generator",
+//     "iphone app!",
+//     "John Brophy",
+//     "rare and unique",
+//     "BKK",
+//     "Printed",
+//     "Title",
+//   ];
+//   rtfParser.ignoreList = ignoreListStrings.map(function(item) {
+//     if (item !== '') {
+//       return new RegExp('.*' + item + '.*', 'g');
+//     }
+//   });
+//   rtfParser.parse(function(songs) {
+//     console.log(songs);
+//   });
 
-} catch (err) {
-  console.error(err);
-}
+// } catch (err) {
+//   console.error(err);
+// }
