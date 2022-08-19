@@ -1,12 +1,18 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Configure sensitive parameters which will be filtered from the log file.
-Rails.application.config.filter_parameters += [:password, :songlist]
+Rails.application.config.filter_parameters += %i[password songlist]
 
-#for sql logging
+# for sql logging
 module LogTruncater
   def render_bind(attr, value)
-    num_chars = Integer(ENV['ACTIVERECORD_SQL_LOG_MAX_VALUE']) rescue 120
+    num_chars = begin
+      Integer(ENV['ACTIVERECORD_SQL_LOG_MAX_VALUE'])
+    rescue StandardError
+      120
+    end
     half_num_chars = num_chars / 2
 
     if attr.is_a?(Array)
@@ -16,14 +22,17 @@ module LogTruncater
     end
 
     if value.is_a?(String) && value.size > num_chars
-      value = "#{value[0,half_num_chars]} [REDACTED #{value.size - num_chars} chars] #{value[-half_num_chars,half_num_chars]}"
+      value = "#{value[0,
+                       half_num_chars]} [REDACTED #{value.size - num_chars} chars] #{value[-half_num_chars,
+                                                                                           half_num_chars]}"
     end
 
-    [attr && attr.name, value]
+    [attr&.name, value]
   end
-
 end
 
-class ActiveRecord::LogSubscriber
-  prepend LogTruncater
+module ActiveRecord
+  class LogSubscriber
+    prepend LogTruncater
+  end
 end

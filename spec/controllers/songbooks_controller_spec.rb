@@ -1,9 +1,8 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 describe SongbooksController do
-
-  it "should make songbooks" do
-
+  it 'should make songbooks' do
   end
-
 end

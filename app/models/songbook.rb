@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Songbook < ApplicationRecord
   belongs_to :user
-  has_many :songs, :dependent => :delete_all
+  has_many :songs, dependent: :delete_all
   validates :name, presence: { message: 'Name cannot be blank.' }
 
   def create_songs_for_songbook(songlist)

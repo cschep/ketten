@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '3.0.2'
 
 gem 'rails', '6.1.6.1'
 
-gem 'bootstrap-sass', '2.3.2'
-gem "pg", "~> 1.2.3"
-gem 'devise'
-gem 'puma'
 gem 'bootsnap'
+gem 'bootstrap-sass', '2.3.2'
+gem 'devise'
 gem 'lograge'
+gem 'pg', '~> 1.2.3'
+gem 'puma'
 
 group :development, :test do
-  gem 'test-unit'
-  gem 'rspec-rails'
   gem 'listen'
+  gem 'rspec-rails'
+  gem 'test-unit'
 end
 
 # Gems used only for assets and not required

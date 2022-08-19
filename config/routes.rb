@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Ketten::Application.routes.draw do
   devise_for :users
 
@@ -13,5 +15,5 @@ Ketten::Application.routes.draw do
     end
   end
 
-  root :to => 'home#index'
+  root to: 'home#index'
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SongbooksController < ApplicationController
   before_action :authenticate_user!
 
@@ -13,26 +15,25 @@ class SongbooksController < ApplicationController
     @songbook = current_user.songbooks.build(songbook_params)
 
     if @songbook.save
-      flash[:notice] = "Successfully created songbook."
+      flash[:notice] = 'Successfully created songbook.'
 
       @songbook.create_songs_for_songbook(params[:songlist])
 
       respond_to do |format|
-        format.html { redirect_to :action => "index" }
-        format.json { render :json => @songbook }
+        format.html { redirect_to action: 'index' }
+        format.json { render json: @songbook }
       end
     else
-      flash[:error] = @songbook.errors.full_messages.join(": ")
+      flash[:error] = @songbook.errors.full_messages.join(': ')
 
       respond_to do |format|
-        format.html { render :action => "new" }
-        format.json { render :json => @songbook.errors }
+        format.html { render action: 'new' }
+        format.json { render json: @songbook.errors }
       end
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def destroy
     @songbook = Songbook.find_by_id(params[:id])
@@ -44,19 +45,15 @@ class SongbooksController < ApplicationController
   def show
     @songbook = Songbook.find_by_id(params[:id])
     respond_to do |format|
-      format.html { render :action => "show" }
-      format.json { render :json => { data: @songbook.songs } }
+      format.html { render action: 'show' }
+      format.json { render json: { data: @songbook.songs } }
     end
   end
 
   def set_default
     @songbook = Songbook.find_by_id(params[:id])
     current_user.songbooks.each do |sb|
-      if sb == @songbook
-        sb.default = true
-      else
-        sb.default = false
-      end
+      sb.default = sb == @songbook
 
       sb.save
     end
@@ -64,7 +61,8 @@ class SongbooksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-private
+  private
+
   def songbook_params
     params.require(:songbook).permit(:name)
   end

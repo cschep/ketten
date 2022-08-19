@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -13,10 +15,10 @@ class User < ApplicationRecord
   end
 
   def default_songbook
-    self.songbooks.where(default: true).first
+    songbooks.where(default: true).first
   end
 
   def live_message
-    self.messages.where(live: true).first
+    messages.where(live: true).first
   end
 end
