@@ -1,28 +1,28 @@
 ---
-app_name:           ketten
-deploy_user:        deployer
-deploy_group:       "{{ deploy_user }}"
-deploy_user_path:   "/home/{{ deploy_user }}"
+app_name: ketten
+deploy_user: deployer
+deploy_group: "{{ deploy_user }}"
+deploy_user_path: "/home/{{ deploy_user }}"
 
 # app git repo
-app_git_repo:       "git@github.com:cschep/ketten.git"
-app_git_branch:     "master"
+app_git_repo: "git@github.com:cschep/ketten.git"
+app_git_branch: "master"
 
 # rails app
-app_root_path:      "{{ deploy_user_path }}/{{ app_name }}"
-app_current_path:   "{{ app_root_path }}/current"
-app_releases_path:  "{{ app_root_path }}/releases"
-app_shared_path:    "{{ app_root_path }}/shared"
-app_pids_path:      "{{ app_shared_path }}/tmp/pids"
-app_logs_path:      "{{ app_shared_path }}/logs"
-app_sockets_path:   "{{ app_shared_path }}/sockets"
-rails_db_pool:      20
-rails_environment:  production
+app_root_path: "{{ deploy_user_path }}/{{ app_name }}"
+app_current_path: "{{ app_root_path }}/current"
+app_releases_path: "{{ app_root_path }}/releases"
+app_shared_path: "{{ app_root_path }}/shared"
+app_pids_path: "{{ app_shared_path }}/tmp/pids"
+app_logs_path: "{{ app_shared_path }}/logs"
+app_sockets_path: "{{ app_shared_path }}/sockets"
+rails_db_pool: 20
+rails_environment: production
 
 # puma
-puma_service_file:  "puma.service.j2"
-puma_config_file:   "{{ app_current_path }}/config/puma.rb"
-puma_socket:        "{{ app_sockets_path }}/puma.sock"
+puma_service_file: "puma.service.j2"
+puma_config_file: "{{ app_current_path }}/config/puma.rb"
+puma_socket: "{{ app_sockets_path }}/puma.sock"
 puma_web_concurrency: 2
 
 # sidekiq
@@ -42,12 +42,12 @@ ansistrano_ensure_basedirs_shared_files_exist: yes
 ansistrano_allow_anonymous_stats: false
 
 ansistrano_shared_paths:
-  - log           # log -> ../../shared/log
-  - tmp           # tmp -> ../../shared/tmp
-  - gemvendor     # gemvendor -> ../../shared/gemvendor
+  - log # log -> ../../shared/log
+  - tmp # tmp -> ../../shared/tmp
+  - gemvendor # gemvendor -> ../../shared/gemvendor
   - public/assets # For rails asset pipeline
-  - public/packs  # For webpacker
-  - node_modules  # For webpacker node_modules -> ../../shared/node_modules
+  - public/packs # For webpacker
+  - node_modules # For webpacker node_modules -> ../../shared/node_modules
 
 shared_files_to_copy:
   - { src: database.yml.j2, dest: config/database.yml }
@@ -80,7 +80,7 @@ ufw_rules:
   - { rule: "allow", proto: "tcp", from: "any", port: "443" }
 
 # ruby
-ruby_version: 2.6.6
+ruby_version: 3.0.2
 rbenv_ruby_configure_opts: "RUBY_CONFIGURE_OPTS=--with-jemalloc"
 rbenv_root_path: "{{ deploy_user_path }}/.rbenv"
 rbenv_shell_rc_path: "{{ deploy_user_path }}/.bashrc"
@@ -153,7 +153,7 @@ fluentbit_outputs:
     tls: On
     Host: "" # e.g: loggly or sumologic logs endpoint
     Port: 443
-    URI: ""  # e.g: /receiver/v1/http/{{ vault_sumologic_token }}
+    URI: "" # e.g: /receiver/v1/http/{{ vault_sumologic_token }}
     Format: json_lines
     Json_Date_Key: timestamp
     Json_Date_Format: iso8601

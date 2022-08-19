@@ -6,7 +6,7 @@ class Songbook < ApplicationRecord
   def create_songs_for_songbook(songlist)
     now = Time.now.utc
     songlist.map do |s|
-      s[:songbook_id] = self.id
+      s[:songbook_id] = id
       s[:created_at] = now
       s[:updated_at] = now
     end
@@ -17,24 +17,18 @@ class Songbook < ApplicationRecord
   end
 
   def search(search_term, search_by)
-    search_term.downcase!
     search_by.downcase!
+    return [] unless %w[title artist brand].include? search_by
 
-    search_type = search_by == "title" ? "title" : "artist"
-    search_string = "#{search_type} like ?"
+    # case insensitive - pg specific
+    search_string = "#{search_by} ilike ?"
 
+    # there has to be a better way to do this
     search_term.split.each do |term|
-      if @songs.nil?
-        @songs = self.songs.where(search_string, "%#{term}%")
-      else
-        @songs = @songs.where(search_string, "%#{term}%")
-      end
+      current_songs = @songs || songs
+      @songs = current_songs.where(search_string, "%#{term}%")
     end
 
-    if @songs
-      @songs
-    else
-      self.songs
-    end
+    @songs || songs
   end
 end

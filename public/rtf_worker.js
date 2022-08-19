@@ -12,9 +12,9 @@ onmessage = function(e) {
     }
   });
 
-  // rtfParser.onSong = function(song) {
-  //   postMessage(song);
-  // };
+  rtfParser.onSong = function(song) {
+    postMessage(song);
+  };
 
   rtfParser.parse(function(songs) {
     postMessage(songs);

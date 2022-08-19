@@ -1,66 +1,55 @@
-$(function() {
-  var editor = ace.edit('rtf-editor');
+$(function () {
+  var editor = ace.edit("rtf-editor");
   editor.renderer.setShowGutter(false);
 
   var rtfWorker;
   var rtfText;
-  var ignoreListStrings = [
-    'Song List Generator',
-    'iphone app!',
-    'John Brophy',
-    'rare and unique',
-    'BKK',
-    'Printed',
-    'Title'
-  ];
+  var ignoreListStrings = ["Song List Generator", "iphone app!", "John Brophy", "rare and unique", "Printed", "Title"];
 
-  var songs = [{artist: 'bieber, justin', title: 'what do u mean'}];
-  $('#songbook-table').DataTable({
+  var songs = [{ artist: "bieber, justin", title: "what do u mean", brand: "BKK" }];
+  $("#songbook-table").DataTable({
     pageLength: 100,
     data: songs,
-    columns: [
-      { data: 'artist' },
-      { data: 'title' }
-    ]
+    columns: [{ data: "artist" }, { data: "title" }, { data: "brand" }],
   });
 
-  var fileLabel = $('#songbook-file-label');
-  var fileName = $('#songbook-name');
-  var songbookTableBody = $('#songbook-table-body');
+  var fileLabel = $("#songbook-file-label");
+  var fileName = $("#songbook-name");
+  var songbookTableBody = $("#songbook-table-body");
 
-  $('#songbook-refresh').on('click', function(e) {
+  $("#songbook-refresh").on("click", function (e) {
     parseFile();
   });
 
-  $('#songbook-stop').on('click', function(e) {
+  $("#songbook-stop").on("click", function (e) {
     rtfWorker.terminate();
   });
 
-  $('#songbook-save').on('click', function(e) {
+  $("#songbook-save").on("click", function (e) {
     toggleLoading();
     var name = fileName.val();
-    if (name === '') {
-      name = 'default name';
+    if (name === "") {
+      name = "default name";
     }
 
     $.ajax({
-      type: 'POST',
-      url: '/songbooks.json',
+      type: "POST",
+      url: "/songbooks.json",
       data: JSON.stringify({ songbook: { name: name }, songlist: songs }),
-      contentType: 'application/json',
-      success: function(songbook) {
-        window.location.href = '/songbooks';
+      contentType: "application/json",
+      success: function (songbook) {
+        window.location.href = "/songbooks";
       },
-      error: function(data) {
-        console.log('error: ' + data);
+      error: function (data) {
+        console.log("error: " + data);
         toggleLoading();
-        showAlert('error');
-      }
+        showAlert("error");
+      },
     });
   });
 
-  $('#songbook-file').on('change', function(e) {
-    var files = document.getElementById('songbook-file').files;
+  $("#songbook-file").on("change", function (e) {
+    var files = document.getElementById("songbook-file").files;
     var file = files[0];
 
     if (file) {
@@ -69,7 +58,7 @@ $(function() {
 
       var reader = new FileReader();
 
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         rtfText = e.target.result;
         displayIgnoreList();
         parseFile();
@@ -79,65 +68,87 @@ $(function() {
     }
   });
 
-  var displayIgnoreList = function() {
-    var ignoreListText = ignoreListStrings.join('\n');
+  var displayIgnoreList = function () {
+    var ignoreListText = ignoreListStrings.join("\n");
     editor.setValue(ignoreListText);
   };
 
-  var saveIgnoreList = function() {
+  var saveIgnoreList = function () {
     var ignoreListText = editor.getValue();
-    ignoreListStrings = ignoreListText.split('\n');
+    ignoreListStrings = ignoreListText.split("\n");
   };
 
-  var parseFile = function() {
-    if (window.Worker) {
-      console.log('Web workers detected.. engage.');
+  var parseFile = function () {
+    // TODO: do web workers do anything for us???
+    if (false) {
+      console.log("Web workers detected.. engage.");
       toggleLoading();
       saveIgnoreList();
 
       //TODO: just make the one worker and postMessage starts a job. Would that even help?
-      rtfWorker = new Worker('/rtf_worker.js');
-      rtfWorker.onmessage = function(e) {
+      rtfWorker = new Worker("/rtf_worker.js");
+      rtfWorker.onmessage = function (e) {
         songs = e.data;
         renderSongbookTable();
         toggleLoading();
-      }
+      };
       rtfWorker.postMessage([rtfText, ignoreListStrings]);
-
     } else {
-      showAlert('error');
+      console.log("No web workers.");
+      toggleLoading();
+      saveIgnoreList();
+
+      let rtfParser = new RTFParser(rtfText);
+      rtfParser.ignoredStrings = ignoreListStrings;
+
+      // TODO: is this real? it's very real!
+      // rtfParser.onSong = function (song) {
+      //   postMessage(song);
+      // };
+
+      setTimeout(function () {
+        rtfParser.parse(function (s) {
+          songs = s;
+          renderSongbookTable();
+          toggleLoading();
+        });
+      }, 100);
     }
   };
 
-  var renderSongbookTable = function() {
-    var dataTable = $('#songbook-table').dataTable();
+  var renderSongbookTable = function () {
+    var dataTable = $("#songbook-table").dataTable();
     if (dataTable) {
       dataTable.fnClearTable();
       dataTable.fnAddData(songs);
     }
   };
 
-  var toggleLoading = function() {
-    $('#songbook-save').prop('disabled', function(i, v) { return !v; });
-    $('.spinner').toggle();
-    var dataTable = $('#songbook-table').dataTable().api().table();
+  var toggleLoading = function () {
+    $("#songbook-save").prop("disabled", function (i, v) {
+      return !v;
+    });
+    $(".spinner").toggle();
+    var dataTable = $("#songbook-table").dataTable().api().table();
     if (dataTable) {
       $(dataTable.container()).toggle();
     }
   };
 
-  var showAlert = function(type) {
+  var showAlert = function (type) {
     var messages = {
-      'success': '<strong>Success!</strong>',
-      'error': '<strong>Oh no!</strong> That didn\'t work. Refresh and try again?'
-    }
+      success: "<strong>Success!</strong>",
+      error: "<strong>Oh no!</strong> That didn't work. Refresh and try again?",
+    };
 
-    var html = '<div class="alert alert-' + type + '">' +
-                  '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                  messages[type] +
-               '</div>';
+    var html =
+      '<div class="alert alert-' +
+      type +
+      '">' +
+      '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+      messages[type] +
+      "</div>";
 
-    $('.feedback').append(html);
+    $(".feedback").append(html);
   };
-
 });
