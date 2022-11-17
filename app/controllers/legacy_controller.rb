@@ -16,8 +16,8 @@ class LegacyController < ApplicationController
 
   def random
     the_ketten = User.where(ketten: true).first
-    if the_ketten&.default_songbook("public")
-      songbook = the_ketten.default_songbook("public")
+    if the_ketten&.default_songbook('public')
+      songbook = the_ketten.default_songbook('public')
       @songs = songbook.songs.order('random()').limit(20)
       render json: @songs.to_json(only: %i[artist title brand]), root: false
 

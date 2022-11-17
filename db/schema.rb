@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,61 +12,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_16_022252) do
-
+ActiveRecord::Schema.define(version: 20_221_116_022_252) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "searches", force: :cascade do |t|
-    t.string "search_term"
-    t.string "search_by"
-    t.string "user_agent"
-    t.integer "num_results"
-    t.string "ip_address"
-    t.bigint "songbook_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["songbook_id"], name: "index_searches_on_songbook_id"
+  create_table 'searches', force: :cascade do |t|
+    t.string 'search_term'
+    t.string 'search_by'
+    t.string 'user_agent'
+    t.integer 'num_results'
+    t.string 'ip_address'
+    t.bigint 'songbook_id'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['songbook_id'], name: 'index_searches_on_songbook_id'
   end
 
-  create_table "songbooks", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.boolean "default"
-    t.boolean "private_default", default: false
-    t.index ["user_id"], name: "index_songbooks_on_user_id"
+  create_table 'songbooks', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'user_id'
+    t.boolean 'default'
+    t.boolean 'private_default', default: false
+    t.index ['user_id'], name: 'index_songbooks_on_user_id'
   end
 
-  create_table "songs", force: :cascade do |t|
-    t.text "artist"
-    t.text "title"
-    t.bigint "songbook_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "brand", default: "", null: false
-    t.index ["songbook_id"], name: "index_songs_on_songbook_id"
+  create_table 'songs', force: :cascade do |t|
+    t.text 'artist'
+    t.text 'title'
+    t.bigint 'songbook_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.string 'brand', default: '', null: false
+    t.index ['songbook_id'], name: 'index_songs_on_songbook_id'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "ketten", default: false, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.integer 'sign_in_count', default: 0
+    t.datetime 'current_sign_in_at'
+    t.datetime 'last_sign_in_at'
+    t.string 'current_sign_in_ip'
+    t.string 'last_sign_in_ip'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.boolean 'ketten', default: false, null: false
+    t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
 
-  add_foreign_key "songbooks", "users"
-  add_foreign_key "songs", "songbooks"
+  add_foreign_key 'songbooks', 'users'
+  add_foreign_key 'songs', 'songbooks'
 end
