@@ -11,6 +11,7 @@ Ketten::Application.routes.draw do
   resources :songbooks do
     member do
       post :set_default
+      post :set_private_default
       post :add_songs
     end
   end

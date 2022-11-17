@@ -6,6 +6,7 @@
     <tr>
       <th>Name</th>
       <th>Is Default?</th>
+      <th>Is Private Default?</th>
       <th>Created</th>
       <th>Actions</th>
     </tr>
@@ -18,11 +19,15 @@
         <tr>
           <td><%= link_to songbook.name, songbook_path(songbook) %></td>
           <td><%= songbook.default ? "Yes" : "No" %></td>
+          <td><%= songbook.private_default ? "Yes" : "No" %></td>
           <td><%= songbook.created_at %></td>
           <td>
             <%= link_to "Delete", songbook, :confirm => 'Are you sure?', method: :delete %>
             <% if songbook.default != true %>
               | <%= link_to "Set Default", set_default_songbook_path(songbook), confirm: 'Are you sure?', method: :post %>
+            <% end %>
+            <% if songbook.private_default != true %>
+              | <%= link_to "Set Private Default", set_private_default_songbook_path(songbook), confirm: 'Are you sure?', method: :post %>
             <% end %>
           </td>
         </tr>

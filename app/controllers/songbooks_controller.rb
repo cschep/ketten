@@ -61,6 +61,17 @@ class SongbooksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def set_private_default
+    @songbook = Songbook.find_by_id(params[:id])
+    current_user.songbooks.each do |sb|
+      sb.private_default = sb == @songbook
+
+      sb.save
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def songbook_params

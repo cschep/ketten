@@ -4,20 +4,20 @@ class LegacyController < ApplicationController
   protect_from_forgery except: :jsonp
 
   def json
-    @songs = searchdb(params[:search], params[:searchby])
+    @songs = searchdb(params[:search], params[:searchby], params[:db])
     render json: @songs.to_json(only: %i[artist title brand]), root: false
   end
 
   def jsonp
-    @songs = searchdb(params[:search], params[:searchby])
+    @songs = searchdb(params[:search], params[:searchby], params[:db])
     render json: @songs.to_json(only: %i[artist title brand]), root: false,
            callback: params[:jsoncallback]
   end
 
   def random
     the_ketten = User.where(ketten: true).first
-    if the_ketten&.default_songbook
-      songbook = the_ketten.default_songbook
+    if the_ketten&.default_songbook("public")
+      songbook = the_ketten.default_songbook("public")
       @songs = songbook.songs.order('random()').limit(20)
       render json: @songs.to_json(only: %i[artist title brand]), root: false
 
@@ -32,13 +32,14 @@ class LegacyController < ApplicationController
     @searches = Search.last(100).reverse
   end
 
-  def searchdb(search_term, search_by)
+  def searchdb(search_term, search_by, db)
     @songs = []
 
     if search_by && search_term
       the_ketten = User.where(ketten: true).first
-      if the_ketten&.default_songbook
-        songbook = the_ketten.default_songbook
+
+      if the_ketten&.default_songbook(db)
+        songbook = the_ketten.default_songbook(db)
 
         @songs = songbook.search(search_term, search_by)
 

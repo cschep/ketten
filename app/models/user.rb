@@ -14,8 +14,12 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def default_songbook
-    songbooks.where(default: true).first
+  def default_songbook(db)
+    if db == 'private'
+      songbooks.where(private_default: true).first
+    else
+      songbooks.where(default: true).first
+    end
   end
 
   def live_message
