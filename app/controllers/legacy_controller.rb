@@ -4,12 +4,12 @@ class LegacyController < ApplicationController
   protect_from_forgery except: :jsonp
 
   def json
-    @songs = searchdb(params[:search], params[:searchby], params[:db])
+    @songs = searchdb(params[:search], params[:searchby], params[:db], params[:live])
     render json: @songs.to_json(only: %i[artist title brand]), root: false
   end
 
   def jsonp
-    @songs = searchdb(params[:search], params[:searchby], params[:db])
+    @songs = searchdb(params[:search], params[:searchby], params[:db], params[:live])
     render json: @songs.to_json(only: %i[artist title brand]), root: false,
            callback: params[:jsoncallback]
   end
@@ -32,7 +32,7 @@ class LegacyController < ApplicationController
     @searches = Search.last(100).reverse
   end
 
-  def searchdb(search_term, search_by, db)
+  def searchdb(search_term, search_by, db, live)
     @songs = []
 
     if search_by && search_term
@@ -41,14 +41,17 @@ class LegacyController < ApplicationController
       if the_ketten&.default_songbook(db)
         songbook = the_ketten.default_songbook(db)
 
-        @songs = songbook.search(search_term, search_by)
-
-        Search.create(search_term: search_term,
-                      search_by: search_by,
-                      user_agent: request.user_agent,
-                      num_results: @songs.count,
-                      ip_address: request.ip,
-                      songbook_id: songbook.id)
+        unless live == 'true'
+          @songs = songbook.search(search_term, search_by, 1000)
+          Search.create(search_term: search_term,
+                        search_by: search_by,
+                        user_agent: request.user_agent,
+                        num_results: @songs.count,
+                        ip_address: request.ip,
+                        songbook_id: songbook.id)
+        else
+          @songs = songbook.search(search_term, search_by, 25)
+        end
       end
     end
 
