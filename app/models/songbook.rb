@@ -39,14 +39,6 @@ class Songbook < ApplicationRecord
       end
     end
 
-
     songs
-
-    # songs
-    # Song.find_by_sql(["SELECT artist, title, brand
-    #                     FROM songs
-    #                     WHERE SIMILARITY(#{search_by}, ?) > 0.2
-    #                     AND songbook_id = ?
-    #                     ORDER BY SIMILARITY(#{search_by}, ?) DESC;", search_term, self.id, search_term])
   end
 end
