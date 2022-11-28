@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class SongbooksController < ApplicationController
-  before_action :authenticate_user!
+  before_action :auth_not_json
+
+  def auth_not_json
+    authenticate_user! unless request.format.json?
+  end
 
   def index
     @songbooks = current_user.songbooks
