@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.2.1'
 
 gem 'rails', '6.1.6.1'
 
@@ -10,7 +10,7 @@ gem 'bootsnap'
 gem 'bootstrap-sass', '2.3.2'
 gem 'devise'
 gem 'lograge'
-gem 'pg', '~> 1.2.3'
+gem 'pg', '1.4.6'
 gem 'puma'
 
 group :development, :test do
