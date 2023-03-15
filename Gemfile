@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.1'
 
-gem 'rails', '6.1.6.1'
+gem 'rails', '6.1.7.3'
 
 gem 'bootsnap'
 gem 'bootstrap-sass', '2.3.2'
