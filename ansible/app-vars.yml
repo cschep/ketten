@@ -80,7 +80,7 @@ ufw_rules:
   - { rule: "allow", proto: "tcp", from: "any", port: "443" }
 
 # ruby
-ruby_version: 3.0.2
+ruby_version: 3.2.1
 rbenv_ruby_configure_opts: "RUBY_CONFIGURE_OPTS=--with-jemalloc"
 rbenv_root_path: "{{ deploy_user_path }}/.rbenv"
 rbenv_shell_rc_path: "{{ deploy_user_path }}/.bashrc"
