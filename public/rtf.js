@@ -1,12 +1,28 @@
 class RTFParser {
-  constructor(rtfText) {
+  constructor(rtfText, ignoredStrings) {
     this.rtfText = rtfText;
-    this.ignoredStrings = [];
+    this.ignoredStrings = ignoredStrings;
   }
 
-  parse(cb) {
+  // The API here is that strings are used by the user
+  // and then we turn them into regexes -- there has been
+  // confusion over this in the past leading to breakages
+  removeIgnoredStrings() {
     let rtfText = this.rtfText;
 
+    for (let ignoredString of this.ignoredStrings) {
+      rtfText = rtfText.replace(new RegExp('.*' + ignoredString + '.*', 'g'), '');
+    }
+
+    this.rtfText = rtfText;
+  };
+
+  parse(cb) {
+    // before we even start parsing remove all the ignored strings
+    // using regex global replace -- this has been slow in the past
+    this.removeIgnoredStrings();
+
+    let rtfText = this.rtfText;
     let currentArtist = "";
     let currentWord = "";
     let currentControlWord = "";
@@ -14,8 +30,6 @@ class RTFParser {
     let groupActive = false;
     let bold = true;
     let colorGroup = false;
-    // NOTE: I don't think this is used anywhere anymore as it was previously used to "soak up"
-    //       tabs and apostrophes?
     let garbageChars = 0;
 
     let result = [];
@@ -48,102 +62,111 @@ class RTFParser {
       }
     }
 
-    for (var i = 0; i < rtfText.length; i++) {
+    // parsing the rtfText character by character
+    for (let i = 0; i < rtfText.length; i++) {
+      // get the next character
       let ch = rtfText[i];
+
+      // TODO: currently unused because the last use was removing apostrophe's that
+      //       we ended up wanting to add back in
+      // there are scenarios where garbage chars need to be slurped up and ignored
+      // if any of the paths below increase the number above 0 then the next X chars
+      // will be effectively ignored
       if (garbageChars > 0) {
         garbageChars--;
-      } else {
-        if (ch === "\n") {
-          if (currentWord !== "") {
-            if (bold) {
-              currentArtist = currentWord.replace("\t", "");
-            } else {
-              let ignored = this.ignoredStrings.reduce(function (result, ignoredString) {
-                return result || currentWord.match(ignoredString);
-              }, false);
+        continue;
+      }
 
-              if (ignored) {
-                continue;
-              }
-
-              let parts = currentWord.trim().split("\t(");
-              if (currentArtist == "sheeran, ed") {
-                console.log(parts, currentWord);
-              }
-
-              let title,
-                brand = "";
-              if (parts.length > 1) {
-                title = parts[0];
-                brand = parts[1].replace(")", "");
-              } else if (parts.length > 0) {
-                title = parts[0];
-              }
-
-              let song = { artist: currentArtist, title: title, brand: brand };
-              if (this.onSong) {
-                this.onSong(song);
-              }
-
-              result.push(song);
+      // main parsing tree
+      // start with a new line
+      if (ch === "\n") {
+        // a new line means we need to reflect on what we've seen and make a decision
+        // if the current word is not empty, and it is bold then that is an artist
+        // if it is not bold, then it is a song, so split out the parts and put it in the song queue
+        // also fire the onSong callback if it is set
+        // finally, set the currentWord back to an empty string
+        if (currentWord !== "") {
+          if (bold) {
+            currentArtist = currentWord.replace("\t", "");
+          } else {
+            // so we think we have a title, but it might be a tab separated title and brand
+            // so we trim it and split it up and check it
+            let parts = currentWord.trim().split("\t(");
+            let title, brand = "";
+            if (parts.length > 1) {
+              title = parts[0];
+              brand = parts[1].replace(")", "");
+            } else if (parts.length > 0) {
+              title = parts[0];
             }
-          }
 
-          currentWord = "";
-        } else if (ch === "\\") {
-          if (controlWordActive) {
-            checkControlWord();
+            let song = {artist: currentArtist, title: title, brand: brand};
+            if (this.onSong) {
+              this.onSong(song);
+            }
 
-            currentControlWord = "";
-          } else {
-            controlWordActive = true;
+            result.push(song);
           }
-          // TODO: so we wanted to put apostrophes back in
-          //       and also we put tabs back in so we could parse brands if we are there
-          // } else if (ch === '\'') {
-          //   if (controlWordActive) {
-          //     controlWordActive = false;
-          //     garbageChars = 2;
-          //   }
-        } else if (ch === "\t") {
-          if (controlWordActive) {
-            checkControlWord();
-            currentControlWord = "";
-            controlWordActive = false;
-          } else {
-            currentWord += ch;
-          }
-        } else if (ch === " ") {
-          if (controlWordActive) {
-            checkControlWord();
+        }
+        currentWord = "";
+      } else if (ch === "\\") {
+        if (controlWordActive) {
+          checkControlWord();
 
-            currentControlWord = "";
-            controlWordActive = false;
-          } else {
-            currentWord += ch;
-          }
-        } else if (ch === "{") {
-          groupActive = true;
-          currentWord = "";
-        } else if (ch === "}") {
-          groupActive = false;
-          colorGroup = false;
+          currentControlWord = "";
         } else {
-          if (controlWordActive) {
-            currentControlWord += ch;
-          } else {
-            if (!groupActive || colorGroup) {
-              currentWord += ch;
-            }
+          controlWordActive = true;
+        }
+        // TODO: so we wanted to put apostrophes back in
+        //       and also we put tabs back in so we could parse brands if we are there
+      } else if (ch === "\t") {
+        if (controlWordActive) {
+          checkControlWord();
+          currentControlWord = "";
+          controlWordActive = false;
+        } else {
+          currentWord += ch;
+        }
+      } else if (ch === " ") {
+        if (controlWordActive) {
+          checkControlWord();
+
+          currentControlWord = "";
+          controlWordActive = false;
+        } else {
+          currentWord += ch;
+        }
+      } else if (ch === "{") {
+        groupActive = true;
+        currentWord = "";
+      } else if (ch === "}") {
+        groupActive = false;
+        colorGroup = false;
+      } else {
+        if (controlWordActive) {
+          currentControlWord += ch;
+        } else {
+          if (!groupActive || colorGroup) {
+            currentWord += ch;
           }
         }
       }
+
     }
 
     if (cb) {
       cb(result);
     }
   }
+}
+
+// TODO: investigate es6 modules
+// exporting for tests and not breaking the web
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = RTFParser;
+  }
+  exports.RTFParser = RTFParser;
 }
 
 // This is useful!
