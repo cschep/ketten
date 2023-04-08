@@ -62,7 +62,7 @@ class LegacyController < ApplicationController
             search_term:,
             search_by:,
             user_agent: request.user_agent,
-            num_results: @songs.count,
+            num_results: songs.count,
             ip_address: request.ip,
             songbook_id: songbook.id
           )
