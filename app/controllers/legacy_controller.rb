@@ -46,6 +46,7 @@ class LegacyController < ApplicationController
 
   # rubocop:disable Metrics/MethodLength
   def searchdb(search_term, search_by, db, live)
+    puts 'searching with', search_term, search_by, db, live
     songs = []
 
     if search_by && search_term
