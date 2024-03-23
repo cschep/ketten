@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_22_211945) do
-
+ActiveRecord::Schema[7.1].define(version: 2022_11_22_211945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -23,15 +22,15 @@ ActiveRecord::Schema.define(version: 2022_11_22_211945) do
     t.integer "num_results"
     t.string "ip_address"
     t.bigint "songbook_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["songbook_id"], name: "index_searches_on_songbook_id"
   end
 
   create_table "songbooks", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.boolean "default"
     t.boolean "private_default", default: false
@@ -42,8 +41,8 @@ ActiveRecord::Schema.define(version: 2022_11_22_211945) do
     t.text "artist"
     t.text "title"
     t.bigint "songbook_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "brand", default: "", null: false
     t.index ["artist"], name: "songs_artist_trgm_idx", opclass: :gin_trgm_ops, using: :gin
     t.index ["songbook_id"], name: "index_songs_on_songbook_id"
@@ -54,15 +53,15 @@ ActiveRecord::Schema.define(version: 2022_11_22_211945) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "ketten", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

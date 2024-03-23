@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   host: localhost
-  port: 5543
+  port: 5544
   encoding: unicode
   database: ketten_development
   pool: 5
@@ -11,7 +11,7 @@ development:
 test:
   adapter: postgresql
   host: localhost
-  port: 5543
+  port: 5544
   encoding: unicode
   database: ketten_test
   pool: 5

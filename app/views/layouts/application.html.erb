@@ -3,11 +3,11 @@
   <head>
     <title>Karaoke Songbooks Online</title>
     <%= stylesheet_link_tag "application", media: "all" %>
-    <%= javascript_include_tag "application" %>
+    <!-- old js tag -->
+    <%= javascript_include_tag "application_old" %>
+    <!-- old js tag ^ -->
     <%= csrf_meta_tags %>
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <%= javascript_importmap_tags %>
   </head>
   <body>
 
