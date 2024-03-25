@@ -3,10 +3,10 @@
 Ketten::Application.routes.draw do
   devise_for :users
 
-  get '/json' => 'legacy#json'
-  get '/jsonp' => 'legacy#jsonp'
-  get '/random' => 'legacy#random'
-  get '/stats' => 'legacy#stats'
+  get "/json" => "legacy#json"
+  get "/jsonp" => "legacy#jsonp"
+  get "/random" => "legacy#random"
+  get "/stats" => "legacy#stats"
 
   resources :songbooks do
     member do
@@ -16,5 +16,5 @@ Ketten::Application.routes.draw do
     end
   end
 
-  root to: 'home#index'
+  root to: "home#index"
 end

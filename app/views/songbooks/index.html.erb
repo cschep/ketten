@@ -22,12 +22,12 @@
           <td><%= songbook.private_default ? "Yes" : "No" %></td>
           <td><%= songbook.created_at %></td>
           <td>
-            <%= link_to "Delete", songbook, :confirm => 'Are you sure?', method: :delete %>
+            <%= link_to "Delete", songbook, data: { "turbo-confirm": 'Are you sure?', "turbo-method": :delete } %>
             <% if songbook.default != true %>
               | <%= link_to "Set Default", set_default_songbook_path(songbook), confirm: 'Are you sure?', method: :post %>
             <% end %>
             <% if songbook.private_default != true %>
-              | <%= link_to "Set Private Default", set_private_default_songbook_path(songbook), confirm: 'Are you sure?', method: :post %>
+              | <%= link_to "Set Private Default", set_private_default_songbook_path(songbook), data: { "turbo-confirm": 'Are you sure?', "turbo-method": :post } %>
             <% end %>
           </td>
         </tr>

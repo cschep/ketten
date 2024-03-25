@@ -1,12 +1,14 @@
-# frozen_string_literal: true
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = 'info@bkk.schepman.org'
+  config.mailer_sender = "info@bkk.schepman.org"
+
+  # Turbo has expectations
+  config.responder.error_status = :unprocessable_entity
+  config.responder.redirect_status = :see_other
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -15,7 +17,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -231,5 +233,5 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
-  config.secret_key = 'dd70be7fb7bf898295a100f20661ba21de6619df4752cc39e999f8cce670f189f6eb5d35874859d9e33856fc55094b6ca6f74eb3079f302c4441df97bf2354fc'
+  config.secret_key = "dd70be7fb7bf898295a100f20661ba21de6619df4752cc39e999f8cce670f189f6eb5d35874859d9e33856fc55094b6ca6f74eb3079f302c4441df97bf2354fc"
 end
