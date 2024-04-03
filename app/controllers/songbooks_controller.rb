@@ -46,6 +46,12 @@ class SongbooksController < ApplicationController
 
   def show
     @songbook = Songbook.find_by_id(params[:id])
+    @songs = if params[:column].present?
+               @songbook.songs.order("#{params[:column]} #{params[:direction]}")
+             else
+               @songbook.songs
+             end
+
     respond_to do |format|
       format.html { render action: "show" }
       format.json { render json: { data: @songbook.songs } }
