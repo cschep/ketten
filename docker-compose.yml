@@ -1,14 +1,7 @@
 services:
   db:
     image: postgres
-    restart: always
     environment:
-      POSTGRES_DB: ketten_development
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_PASSWORD: pgpassword
     ports:
       - "5544:5432"
-    volumes:
-      -  pgdata:/var/lib/postgresql/data
-
-volumes:
-   pgdata:
