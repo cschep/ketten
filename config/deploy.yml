@@ -25,6 +25,10 @@ env:
 proxy:
   ssl: true
   host: bkk.schepman.org
+  app_port: 3000
+  healthcheck:
+    path: /up
+    interval: 3
 
 accessories:
   db:
