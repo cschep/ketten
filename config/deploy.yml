@@ -6,8 +6,6 @@ servers:
   web:
     hosts:
       - 172.239.162.103
-    options:
-      network: "kamal"
 
 registry:
   server: localhost:5555
