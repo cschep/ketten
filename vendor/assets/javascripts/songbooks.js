@@ -38,6 +38,7 @@ $(function () {
       url: "/songbooks.json",
       data: JSON.stringify({ songbook: { name: name }, songlist: songs }),
       contentType: "application/json",
+      headers: { "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content },
       success: function (songbook) {
         window.location.href = "/songbooks";
       },

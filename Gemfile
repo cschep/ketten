@@ -2,25 +2,19 @@
 
 source "https://rubygems.org"
 
-ruby "3.3.0"
+ruby "3.4.8"
 
-gem "rails", "7.1.3.2"
+gem "rails", "~> 8.1.0"
 
+gem "propshaft"
 gem "turbo-rails"
-
-gem "sassc-rails"
-gem "sprockets-rails"
 
 gem "bootsnap"
 
 gem "devise"
 gem "lograge"
-gem "pg", "1.4.6"
+gem "pg"
 gem "puma"
-
-gem "uglifier"
-
-gem "jquery-rails"
 
 group :development, :test do
   gem "listen"

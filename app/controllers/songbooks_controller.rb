@@ -1,9 +1,5 @@
 class SongbooksController < ApplicationController
-  before_action :auth_not_json
-
-  def auth_not_json
-    authenticate_user! unless request.format.json?
-  end
+  before_action :authenticate_user!
 
   def index
     @songbooks = current_user.songbooks

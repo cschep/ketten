@@ -2,10 +2,15 @@
 <html>
   <head>
     <title>Karaoke Songbooks Online</title>
-    <%= stylesheet_link_tag "application", media: "all" %>
-    <!-- old js tag -->
-    <%= javascript_include_tag "application_old" %>
-    <!-- old js tag ^ -->
+    <%= stylesheet_link_tag "bootstrap.min", media: "all" %>
+    <%= stylesheet_link_tag "dataTables.bootstrap.2", media: "all" %>
+    <%= stylesheet_link_tag "custom", media: "all" %>
+    <%= stylesheet_link_tag "songbooks", media: "all" %>
+    <%= javascript_include_tag "jquery.min" %>
+    <%= javascript_include_tag "bootstrap.min" %>
+    <%= javascript_include_tag "ace" %>
+    <%= javascript_include_tag "jquery.dataTables.min" %>
+    <%= javascript_include_tag "dataTables.bootstrap.2" %>
     <%= csrf_meta_tags %>
     <%= javascript_importmap_tags %>
   </head>
