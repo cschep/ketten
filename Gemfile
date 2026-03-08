@@ -23,3 +23,5 @@ group :development, :test do
 end
 
 gem "importmap-rails", "~> 2.0"
+
+gem "dockerfile-rails", "~> 1.7", group: :development

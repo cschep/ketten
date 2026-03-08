@@ -1,0 +1,44 @@
+service: ketten
+
+image: ketten
+
+servers:
+  web:
+    hosts:
+      - 172.239.162.103
+    options:
+      network: "kamal"
+
+registry:
+  server: localhost:5555
+
+builder:
+  arch: amd64
+
+env:
+  clear:
+    DB_HOST: ketten-db
+    POSTGRES_USER: ketten
+    RAILS_LOG_LEVEL: info
+  secret:
+    - SECRET_KEY_BASE
+    - POSTGRES_PASSWORD
+
+proxy:
+  ssl: true
+  host: bkk.schepman.org
+
+accessories:
+  db:
+    image: postgres:18
+    host: 172.239.162.103
+    port: "127.0.0.1:5432:5432"
+    network: kamal
+    env:
+      clear:
+        POSTGRES_DB: ketten_production
+        POSTGRES_USER: ketten
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

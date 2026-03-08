@@ -21,3 +21,4 @@ uploads
 /config/credentials/development.key
 /config/credentials/production.key
 .vault_pass
+/.kamal/secrets
