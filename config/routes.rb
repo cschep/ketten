@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Ketten::Application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
+
   devise_for :users
 
   get "/json" => "legacy#json"
