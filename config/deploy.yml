@@ -23,7 +23,8 @@ env:
     - POSTGRES_PASSWORD
 
 proxy:
-  host: 172.239.162.103
+  ssl: true
+  host: bkk.schepman.org
   app_port: 3000
   healthcheck:
     path: /up
